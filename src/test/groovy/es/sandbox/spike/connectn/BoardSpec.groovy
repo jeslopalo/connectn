@@ -81,7 +81,7 @@ class BoardSpec extends Specification {
 
     def "it should put the first chip in a column"() {
 
-        setup:
+        given:
         def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
 
         when:
@@ -93,7 +93,7 @@ class BoardSpec extends Specification {
 
     def "it should fill a column"() {
 
-        setup:
+        given:
         def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
 
         when:
@@ -110,7 +110,7 @@ class BoardSpec extends Specification {
 
     def "it should fail when put a chip in a full column"() {
 
-        setup:
+        given:
         def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
         putChipsInColumnWithRotatingColors(sut, ROWS, 0, Color.RED)
 
