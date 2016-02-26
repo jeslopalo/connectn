@@ -15,4 +15,12 @@ public class Position {
     public static Position position(int column, int row) {
         return new Position(column, row);
     }
+
+    public int column() {
+        return this.column;
+    }
+
+    public int row() {
+        return this.row;
+    }
 }

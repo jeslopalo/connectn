@@ -33,4 +33,8 @@ public class Board {
         }
         throw new ColumnIsFullException(column);
     }
+
+    public Color colorAt(Position position) {
+        return this.chips[position.column()][position.row()].color();
+    }
 }

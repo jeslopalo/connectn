@@ -10,6 +10,6 @@ public class ColumnIsFullException extends RuntimeException {
     }
 
     private static String message(int column) {
-        return String.format("Column %d is full", column);
+        return String.format("Column <%d> is full", column);
     }
 }

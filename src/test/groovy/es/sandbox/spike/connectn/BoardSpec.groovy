@@ -2,6 +2,8 @@ package es.sandbox.spike.connectn
 
 import spock.lang.Specification
 
+import static es.sandbox.spike.connectn.Position.position
+
 /**
  * Created by jeslopalo on 24/2/16.
  */
@@ -75,5 +77,56 @@ class BoardSpec extends Specification {
 
         where:
         numberOfRows << [3, 4, 5]
+    }
+
+    def "it should put the first chip in a column"() {
+
+        setup:
+        def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
+
+        when:
+        sut.put(Color.RED, 0)
+
+        then:
+        sut.colorAt(position(0, 0)) == Color.RED
+    }
+
+    def "it should fill a column"() {
+
+        setup:
+        def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
+
+        when:
+        putChipsInColumnWithRotatingColors(sut, ROWS, 0, Color.RED);
+
+        then:
+        def color = Color.RED
+        for (int row = 0; row < ROWS; row++) {
+            color = color.rotate()
+
+            sut.colorAt(position(0, row)) == color
+        }
+    }
+
+    def "it should fail when put a chip in a full column"() {
+
+        setup:
+        def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
+        putChipsInColumnWithRotatingColors(sut, ROWS, 0, Color.RED)
+
+        when:
+        sut.put(Color.RED, 0)
+
+        then:
+        ColumnIsFullException exception = thrown()
+        exception.message == "Column <0> is full"
+    }
+
+    void putChipsInColumnWithRotatingColors(Board board, int max, int column, Color starting) {
+        def color = starting
+        for (int row = 0; row < max; row++) {
+            board.put(color, column);
+            color = color.rotate();
+        }
     }
 }

@@ -11,4 +11,8 @@ public class Chip {
         this.color = color;
         this.position = position;
     }
+
+    public Color color() {
+        return this.color;
+    }
 }

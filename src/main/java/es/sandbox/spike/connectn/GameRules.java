@@ -3,7 +3,7 @@ package es.sandbox.spike.connectn;
 /**
  * Created by jeslopalo on 25/2/16.
  */
-public class GameRules {
+final class GameRules {
 
     static void validateDimensions(int columns, int rows) {
         assertThatNumberOfColumnsIsGreaterThanTwo(columns);
@@ -44,5 +44,12 @@ public class GameRules {
         if (chipsToWin < 2) {
             throw new IllegalArgumentException("Chips to win must be greater than 1");
         }
+    }
+
+    /**
+     * @throws UnsupportedOperationException
+     */
+    private GameRules() {
+        throw new UnsupportedOperationException("uninstantiable class");
     }
 }
