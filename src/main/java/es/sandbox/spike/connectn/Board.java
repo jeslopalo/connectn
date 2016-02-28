@@ -7,6 +7,7 @@ import static es.sandbox.spike.connectn.Position.position;
  */
 public class Board {
     private int chipsToWin;
+    private Dimensions dimensions;
 
     private Chip[][] chips;
 
@@ -14,14 +15,15 @@ public class Board {
         GameRules.validateDimensions(columns, rows);
         GameRules.validateChipsToWin(chipsToWin, columns, rows);
 
+        this.dimensions= new Dimensions(columns, rows);
         this.chipsToWin = chipsToWin;
         this.chips = new Chip[columns][rows];
     }
 
     void put(Color color, int column) {
-        final int firstEmptyRow = findFirstEmptyRowInColumn(column);
+        final int row = findFirstEmptyRowInColumn(column);
 
-        this.chips[column][firstEmptyRow] = new Chip(color, position(column, firstEmptyRow));
+        this.chips[column][row] = new Chip(color, position(column, row));
     }
 
     private int findFirstEmptyRowInColumn(int column) {
