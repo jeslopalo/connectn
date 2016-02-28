@@ -13,7 +13,7 @@ class BoardSpec extends Specification {
     private static final int COLUMNS = 10
     private static final int CHIPS_TO_WIN = 2;
 
-    def "it should fail when chips to win is lower than 2"() {
+    def "should fail when chips to win is lower than 2"() {
 
         when:
         new Board(chipsToWin, COLUMNS, ROWS);
@@ -26,20 +26,20 @@ class BoardSpec extends Specification {
         chipsToWin << [-3, -2, -1, 0, 1]
     }
 
-    def "it should fail when number of columns is lower than 2"() {
+    def "should fail when number of columns is lower than 2"() {
 
         when:
         new Board(CHIPS_TO_WIN, numberOfColumns, ROWS)
 
         then:
         IllegalArgumentException exception = thrown()
-        exception.message == "The number of columns must be greater than 2"
+        exception.message == "The number of columns must be greater or equal than 2"
 
         where:
         numberOfColumns << [-1, 0, 1]
     }
 
-    def "it should fail when number of columns is lower than chips to win"() {
+    def "should fail when number of columns is lower than chips to win"() {
 
         when:
         new Board(6, numberOfColumns, ROWS)
@@ -52,21 +52,21 @@ class BoardSpec extends Specification {
         numberOfColumns << [3, 4, 5]
     }
 
-    def "it should fail when number of rows is lower than 2"() {
+    def "should fail when number of rows is lower than 2"() {
 
         when:
         new Board(CHIPS_TO_WIN, COLUMNS, numberOfRows);
 
         then:
         IllegalArgumentException exception = thrown();
-        exception.message == "The number of rows must be greater than 2"
+        exception.message == "The number of rows must be greater or equal than 2"
 
         where:
         numberOfRows << [-1, 0, 1]
     }
 
 
-    def "it should fail when number of rows is lower than chips to win"() {
+    def "should fail when number of rows is lower than chips to win"() {
 
         when:
         new Board(6, COLUMNS, numberOfRows)
@@ -79,7 +79,7 @@ class BoardSpec extends Specification {
         numberOfRows << [3, 4, 5]
     }
 
-    def "it should put the first chip in a column"() {
+    def "should put the first chip in a column"() {
 
         given:
         def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
@@ -91,7 +91,7 @@ class BoardSpec extends Specification {
         sut.colorAt(position(0, 0)) == Color.RED
     }
 
-    def "it should fill a column"() {
+    def "should fill a column"() {
 
         given:
         def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
@@ -108,7 +108,7 @@ class BoardSpec extends Specification {
         }
     }
 
-    def "it should fail when put a chip in a full column"() {
+    def "should fail when put a chip in a full column"() {
 
         given:
         def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
