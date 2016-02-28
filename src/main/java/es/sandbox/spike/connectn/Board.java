@@ -15,7 +15,7 @@ public class Board {
         GameRules.validateDimensions(columns, rows);
         GameRules.validateChipsToWin(chipsToWin, columns, rows);
 
-        this.dimensions= new Dimensions(columns, rows);
+        this.dimensions = new Dimensions(columns, rows);
         this.chipsToWin = chipsToWin;
         this.chips = new Chip[columns][rows];
     }
