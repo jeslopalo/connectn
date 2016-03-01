@@ -16,7 +16,7 @@ class Result {
         this.chips = chips;
     }
 
-    public Result() {
+    private Result() {
 
     }
 
@@ -32,7 +32,7 @@ class Result {
         return this.color == null ? Optional.empty() : Optional.of(this.color);
     }
 
-    public boolean isGameOver() {
+    private boolean isGameOver() {
         return this.color != null;
     }
 

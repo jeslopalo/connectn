@@ -12,6 +12,6 @@ class ResultSpec extends Specification {
         def result = Result.draw()
 
         then:
-        result.winner().isPresent() == false
+        !result.winner().isPresent()
     }
 }

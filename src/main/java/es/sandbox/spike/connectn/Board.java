@@ -9,11 +9,11 @@ import static es.sandbox.spike.connectn.Position.position;
  * Created by jeslopalo on 24/2/16.
  */
 public class Board {
-    private int chipsToWin;
-    private Dimensions dimensions;
-    private GameResultCalculator gameResultCalculator;
+    private final int chipsToWin;
+    private final Dimensions dimensions;
+    private final GameResultCalculator gameResultCalculator;
 
-    private Chip[][] chips;
+    private final Chip[][] chips;
 
     public Board(int chipsToWin, int columns, int rows) {
         GameRules.validateDimensions(columns, rows);
@@ -60,7 +60,7 @@ public class Board {
         Objects.requireNonNull(position, "Position must be non null");
 
         return chipAt(position)
-                .map(chip -> chip.color());
+                .map(Chip::color);
     }
 
     public Optional<Chip> chipAt(Position position) {

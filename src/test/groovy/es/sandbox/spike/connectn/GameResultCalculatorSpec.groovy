@@ -43,7 +43,7 @@ class GameResultCalculatorSpec extends Specification {
         def result = new GameResultCalculator(board).calculate(Position.position(0, 1));
 
         then:
-        result.winner().isPresent() == true
+        result.winner().isPresent()
         result.winner().get() == Color.RED
     }
 
@@ -59,7 +59,7 @@ class GameResultCalculatorSpec extends Specification {
         def result = new GameResultCalculator(board).calculate(Position.position(1, 0));
 
         then:
-        result.winner().isPresent() == true
+        result.winner().isPresent()
         result.winner().get() == Color.RED
     }
 
@@ -75,7 +75,7 @@ class GameResultCalculatorSpec extends Specification {
         def result = new GameResultCalculator(board).calculate(Position.position(0, 1));
 
         then:
-        result.winner().isPresent() == true
+        result.winner().isPresent()
         result.winner().get() == Color.RED
     }
 
@@ -91,7 +91,7 @@ class GameResultCalculatorSpec extends Specification {
         def result = new GameResultCalculator(board).calculate(Position.position(1, 1));
 
         then:
-        result.winner().isPresent() == true
+        result.winner().isPresent()
         result.winner().get() == Color.RED
     }
 }

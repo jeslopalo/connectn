@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Created by jeslopalo on 29/2/16.
  */
-public class GameResultCalculator {
+class GameResultCalculator {
 
     private final Board board;
 
@@ -58,14 +58,13 @@ public class GameResultCalculator {
         final Set<Chip> positions = new HashSet<>();
 
         starting.at(direction)
-                .ifPresent(position -> {
-                    chipAt(position)
-                            .filter(chip -> chip.color() == color)
-                            .ifPresent(chip -> {
-                                positions.add(chip);
-                                positions.addAll(findFrom(position, color, direction));
-                            });
-                });
+                .ifPresent(position ->
+                        chipAt(position)
+                                .filter(chip -> chip.color() == color)
+                                .ifPresent(chip -> {
+                                    positions.add(chip);
+                                    positions.addAll(findFrom(position, color, direction));
+                                }));
 
         return positions;
     }

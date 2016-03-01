@@ -104,7 +104,7 @@ class BoardSpec extends Specification {
         for (int row = 0; row < ROWS; row++) {
             color = color.rotate()
 
-            sut.colorAt(position(0, row)) == color
+            sut.colorAt(position(0, row)).get() == color
         }
     }
 
@@ -188,8 +188,8 @@ class BoardSpec extends Specification {
         def result = sut.put(Color.RED, 0);
 
         then:
-        result.isGameOver() == false
-        result.winner().isPresent() == false
+        !result.isGameOver()
+        !result.winner().isPresent()
     }
 
     def "should finish the game with 2 chips to win and 2 consecutive Red chips"() {
@@ -203,7 +203,7 @@ class BoardSpec extends Specification {
         def result = sut.put(Color.RED, 0)
 
         then:
-        result.isGameOver() == true
+        result.isGameOver()
         result.winner().get() == Color.RED
     }
 }

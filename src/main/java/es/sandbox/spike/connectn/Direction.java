@@ -11,5 +11,5 @@ enum Direction {
     BOTTOM,
     BOTTOM_LEFT,
     LEFT,
-    TOP_LEFT;
+    TOP_LEFT
 }

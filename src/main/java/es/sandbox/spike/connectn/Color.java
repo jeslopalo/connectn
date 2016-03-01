@@ -10,7 +10,7 @@ public enum Color {
         return rotate(this);
     }
 
-    public static Color rotate(Color color) {
+    private static Color rotate(Color color) {
         return color == Color.RED ? Color.YELLOW : Color.RED;
     }
 }

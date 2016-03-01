@@ -25,7 +25,7 @@ class Dimensions {
             throw new PositionOutOfRangeException(position, this);
         }
     }
-*/
+ */
 
     private boolean rowIsInRange(Position position) {
         return 0 <= position.row() && position.row() < this.rows;

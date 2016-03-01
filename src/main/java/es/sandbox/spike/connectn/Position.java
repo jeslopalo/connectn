@@ -6,9 +6,9 @@ import java.util.Optional;
 /**
  * Created by jeslopalo on 24/2/16.
  */
-public class Position {
-    private int column;
-    private int row;
+class Position {
+    private final int column;
+    private final int row;
 
     private Position(int column, int row) {
         this.column = column;
@@ -77,10 +77,6 @@ public class Position {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Position{");
-        sb.append("column=").append(column);
-        sb.append(", row=").append(row);
-        sb.append('}');
-        return sb.toString();
+        return "Position{column=" + column + ", row=" + row + '}';
     }
 }

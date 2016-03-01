@@ -5,9 +5,9 @@ import java.util.Objects;
 /**
  * Created by jeslopalo on 24/2/16.
  */
-public class Chip {
-    private Color color;
-    private Position position;
+class Chip {
+    private final Color color;
+    private final Position position;
 
     Chip(Color color, Position position) {
         this.color = color;
@@ -37,10 +37,6 @@ public class Chip {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Chip{");
-        sb.append("color=").append(this.color);
-        sb.append(", position=").append(this.position);
-        sb.append('}');
-        return sb.toString();
+        return "Chip{color=" + this.color + ", position=" + this.position + '}';
     }
 }
