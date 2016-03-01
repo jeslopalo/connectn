@@ -1,5 +1,8 @@
 package es.sandbox.spike.connectn;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import static es.sandbox.spike.connectn.Position.position;
 
 /**
@@ -8,6 +11,7 @@ import static es.sandbox.spike.connectn.Position.position;
 public class Board {
     private int chipsToWin;
     private Dimensions dimensions;
+    private GameResultCalculator gameResultCalculator;
 
     private Chip[][] chips;
 
@@ -18,12 +22,28 @@ public class Board {
         this.dimensions = new Dimensions(columns, rows);
         this.chipsToWin = chipsToWin;
         this.chips = new Chip[columns][rows];
+        this.gameResultCalculator = new GameResultCalculator(this);
     }
 
-    void put(Color color, int column) {
-        final int row = findFirstEmptyRowInColumn(column);
+    int getChipsToWin() {
+        return this.chipsToWin;
+    }
 
-        this.chips[column][row] = new Chip(color, position(column, row));
+    Dimensions getDimensions() {
+        return this.dimensions;
+    }
+
+    Result put(Color color, int column) {
+        final int row = findFirstEmptyRowInColumn(column);
+        final Position position = position(column, row);
+
+        this.chips[column][row] = new Chip(color, position);
+
+        return calculateResult(position);
+    }
+
+    private Result calculateResult(Position position) {
+        return this.gameResultCalculator.calculate(position);
     }
 
     private int findFirstEmptyRowInColumn(int column) {
@@ -36,7 +56,19 @@ public class Board {
         throw new ColumnIsFullException(column);
     }
 
-    public Color colorAt(Position position) {
-        return this.chips[position.column()][position.row()].color();
+    public Optional<Color> colorAt(Position position) {
+        Objects.requireNonNull(position, "Position must be non null");
+
+        return chipAt(position)
+                .map(chip -> chip.color());
+    }
+
+    public Optional<Chip> chipAt(Position position) {
+        Objects.requireNonNull(position, "Position must be non null");
+
+        if (this.dimensions.contains(position)) {
+            return Optional.ofNullable(this.chips[position.column()][position.row()]);
+        }
+        return Optional.empty();
     }
 }

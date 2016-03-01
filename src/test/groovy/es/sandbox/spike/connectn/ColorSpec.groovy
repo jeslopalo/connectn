@@ -8,6 +8,7 @@ import spock.lang.Specification
 class ColorSpec extends Specification {
 
     def "should be RED or YELLOW"() {
+
         expect:
         Color.values().size() == 2
         Color.valueOf("RED") != null
@@ -15,6 +16,7 @@ class ColorSpec extends Specification {
     }
 
     def "should rotate colors"() {
+
         expect:
         Color.rotate(color) == rotated;
 
@@ -24,13 +26,13 @@ class ColorSpec extends Specification {
         Color.YELLOW || Color.RED
     }
 
-    def "RED should rotate to YELLOW"() {
+    def "should rotate from RED to YELLOW"() {
 
         expect:
         Color.RED.rotate() == Color.YELLOW
     }
 
-    def "YELLOW should rotate to RED"() {
+    def "should rotate from YELLOW to RED"() {
 
         expect:
         Color.YELLOW.rotate() == Color.RED

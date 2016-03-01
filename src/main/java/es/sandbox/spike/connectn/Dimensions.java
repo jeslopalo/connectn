@@ -15,6 +15,26 @@ class Dimensions {
         this.rows = rows;
     }
 
+    boolean contains(Position position) {
+        return columnIsInRange(position) && rowIsInRange(position);
+    }
+
+/*
+    void validate(Position position) {
+        if (!contains(position)) {
+            throw new PositionOutOfRangeException(position, this);
+        }
+    }
+*/
+
+    private boolean rowIsInRange(Position position) {
+        return 0 <= position.row() && position.row() < this.rows;
+    }
+
+    private boolean columnIsInRange(Position position) {
+        return 0 <= position.column() && position.column() < this.columns;
+    }
+
     @Override
     public String toString() {
         return String.format("%dx%d", this.columns, this.rows);
