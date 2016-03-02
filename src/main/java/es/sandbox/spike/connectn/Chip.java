@@ -18,6 +18,10 @@ class Chip {
         return this.color;
     }
 
+    public Position position() {
+        return this.position;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(position);
