@@ -65,7 +65,6 @@ class BoardSpec extends Specification {
         numberOfRows << [-1, 0, 1]
     }
 
-
     def "should fail when number of rows is lower than chips to win"() {
 
         when:
