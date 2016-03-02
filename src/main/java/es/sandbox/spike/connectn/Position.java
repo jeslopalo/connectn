@@ -77,6 +77,6 @@ class Position {
 
     @Override
     public String toString() {
-        return "Position{column=" + column + ", row=" + row + '}';
+        return String.format("[%d, %d]", this.column, this.row);
     }
 }
