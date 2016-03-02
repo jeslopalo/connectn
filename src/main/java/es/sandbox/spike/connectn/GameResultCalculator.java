@@ -69,59 +69,31 @@ class GameResultCalculator {
         return positions;
     }
 
-
-    private Set<Chip> horizontalChipsFrom(Position position) {
+    private Set<Chip> findChipsInDirections(Position position, Direction starting, Direction ending) {
         final Set<Chip> positions = new HashSet<>();
-
         chipAt(position)
                 .ifPresent(chip -> {
                     positions.add(chip);
-                    positions.addAll(findFrom(position, chip.color(), Direction.LEFT));
-                    positions.addAll(findFrom(position, chip.color(), Direction.RIGHT));
+                    positions.addAll(findFrom(position, chip.color(), starting));
+                    positions.addAll(findFrom(position, chip.color(), ending));
                 });
-
         return positions;
     }
 
+    private Set<Chip> horizontalChipsFrom(Position position) {
+        return findChipsInDirections(position, Direction.LEFT, Direction.RIGHT);
+    }
 
     private Set<Chip> mainDiagonalChipsFrom(Position position) {
-        final Set<Chip> positions = new HashSet<>();
-
-        chipAt(position)
-                .ifPresent(chip -> {
-                    positions.add(chip);
-                    positions.addAll(findFrom(position, chip.color(), Direction.TOP_LEFT));
-                    positions.addAll(findFrom(position, chip.color(), Direction.BOTTOM_RIGHT));
-                });
-
-        return positions;
+        return findChipsInDirections(position, Direction.TOP_LEFT, Direction.BOTTOM_RIGHT);
     }
 
     private Set<Chip> verticalChipsFrom(Position position) {
-        final Set<Chip> positions = new HashSet<>();
-
-        chipAt(position)
-                .ifPresent(chip -> {
-                    positions.add(chip);
-                    positions.addAll(findFrom(position, chip.color(), Direction.TOP));
-                    positions.addAll(findFrom(position, chip.color(), Direction.BOTTOM));
-                });
-
-        return positions;
+        return findChipsInDirections(position, Direction.TOP, Direction.BOTTOM);
     }
 
-
     private Set<Chip> antiDiagonalChipsFrom(Position position) {
-        final Set<Chip> positions = new HashSet<>();
-
-        chipAt(position)
-                .ifPresent(chip -> {
-                    positions.add(chip);
-                    positions.addAll(findFrom(position, chip.color(), Direction.TOP_RIGHT));
-                    positions.addAll(findFrom(position, chip.color(), Direction.BOTTOM_LEFT));
-                });
-
-        return positions;
+        return findChipsInDirections(position, Direction.TOP_RIGHT, Direction.BOTTOM_LEFT);
     }
 
     private Optional<Chip> chipAt(Position position) {
