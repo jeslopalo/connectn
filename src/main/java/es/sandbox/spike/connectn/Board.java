@@ -24,7 +24,7 @@ public class Board {
         this.chips = new Chip[columns][rows];
         this.gameResultCalculator = new GameResultCalculator(this);
     }
-
+    
     int getChipsToWin() {
         return this.chipsToWin;
     }
@@ -39,10 +39,10 @@ public class Board {
 
         this.chips[column][row] = new Chip(color, position);
 
-        return calculateResult(position);
+        return calculateResultFor(position);
     }
 
-    private Result calculateResult(Position position) {
+    private Result calculateResultFor(Position position) {
         return this.gameResultCalculator.calculateFor(position);
     }
 
