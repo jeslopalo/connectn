@@ -9,7 +9,6 @@ import static es.sandbox.spike.connectn.Position.position;
  * Created by jeslopalo on 24/2/16.
  */
 public class Board {
-    private final int chipsToWin;
     private final Dimensions dimensions;
     private final GameResultCalculator gameResultCalculator;
 
@@ -20,13 +19,8 @@ public class Board {
         GameRules.validateChipsToWin(chipsToWin, columns, rows);
 
         this.dimensions = new Dimensions(columns, rows);
-        this.chipsToWin = chipsToWin;
         this.chips = new Chip[columns][rows];
-        this.gameResultCalculator = new GameResultCalculator(this);
-    }
-    
-    int getChipsToWin() {
-        return this.chipsToWin;
+        this.gameResultCalculator = new GameResultCalculator(this, chipsToWin);
     }
 
     Dimensions getDimensions() {

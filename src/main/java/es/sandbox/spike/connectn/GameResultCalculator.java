@@ -11,10 +11,14 @@ import java.util.Set;
 class GameResultCalculator {
 
     private final Board board;
+    private final int chipsToWin;
 
-    public GameResultCalculator(Board board) {
+    GameResultCalculator(Board board, int chipsToWin) {
         Objects.requireNonNull(board, "Board must be not null");
+        GameRules.assertThatChipsToWinIsGreaterThanOne(chipsToWin);
+
         this.board = board;
+        this.chipsToWin = chipsToWin;
     }
 
     public Result calculateFor(Position position) {
@@ -25,25 +29,25 @@ class GameResultCalculator {
 
                     /* Vertical positions (|) */
                     final Set<Chip> verticalChips = verticalChipsFrom(position);
-                    if (verticalChips.size() == this.board.getChipsToWin()) {
+                    if (verticalChips.size() == this.chipsToWin) {
                         return Result.winner(chip.color(), verticalChips);
                     }
 
                     /* Main diagonal positions (\) */
                     final Set<Chip> mainDiagonalChips = mainDiagonalChipsFrom(position);
-                    if (mainDiagonalChips.size() == this.board.getChipsToWin()) {
+                    if (mainDiagonalChips.size() == this.chipsToWin) {
                         return Result.winner(chip.color(), mainDiagonalChips);
                     }
 
                     /* Horizontal positions (-) */
                     final Set<Chip> horizontalChips = horizontalChipsFrom(position);
-                    if (horizontalChips.size() == this.board.getChipsToWin()) {
+                    if (horizontalChips.size() == this.chipsToWin) {
                         return Result.winner(chip.color(), horizontalChips);
                     }
 
                     /* Anti diagonal positions (/) */
                     final Set<Chip> antiDiagonalChips = antiDiagonalChipsFrom(position);
-                    if (antiDiagonalChips.size() == this.board.getChipsToWin()) {
+                    if (antiDiagonalChips.size() == this.chipsToWin) {
                         return Result.winner(chip.color(), antiDiagonalChips);
                     }
 

@@ -40,7 +40,7 @@ final class GameRules {
         }
     }
 
-    private static void assertThatChipsToWinIsGreaterThanOne(int chipsToWin) {
+    static void assertThatChipsToWinIsGreaterThanOne(int chipsToWin) {
         if (chipsToWin < 2) {
             throw new IllegalArgumentException("Chips to win must be greater than 1");
         }
