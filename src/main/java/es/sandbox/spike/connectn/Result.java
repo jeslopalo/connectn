@@ -2,6 +2,7 @@ package es.sandbox.spike.connectn;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by jeslopalo on 29/2/16.
@@ -38,12 +39,17 @@ class Result {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Result{");
-        sb.append("color=").append(this.color);
-        if (isGameOver()) {
-            sb.append(", chips=").append(this.chips);
+        if (!isGameOver()) {
+            return "draw! The game is on going";
         }
-        sb.append('}');
-        return sb.toString();
+        return String.format("%s win! positions: {%s}", this.color, positions(this.chips));
+    }
+
+    private String positions(Set<Chip> chips) {
+        return chips
+                .stream()
+                .map(Chip::position)
+                .map(Object::toString)
+                .collect(Collectors.joining(", "));
     }
 }
