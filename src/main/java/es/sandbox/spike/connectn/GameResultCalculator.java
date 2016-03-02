@@ -47,7 +47,6 @@ class GameResultCalculator {
                         return Result.winner(chip.color(), antiDiagonalChips);
                     }
 
-
                     return Result.draw();
 
                 })
