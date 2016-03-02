@@ -19,42 +19,16 @@ class Position {
         return new Position(column, row);
     }
 
-    public int column() {
+    int column() {
         return this.column;
     }
 
-    public int row() {
+    int row() {
         return this.row;
     }
 
     public Optional<Position> at(Direction direction) {
-
-        if (direction == Direction.TOP) {
-            return Optional.of(position(this.column, this.row + 1));
-        }
-        if (direction == Direction.TOP_RIGHT) {
-            return Optional.of(position(this.column + 1, this.row + 1));
-        }
-        if (direction == Direction.RIGHT) {
-            return Optional.of(position(this.column + 1, this.row));
-        }
-        if (direction == Direction.BOTTOM_RIGHT) {
-            return Optional.of(position(this.column + 1, this.row - 1));
-        }
-        if (direction == Direction.BOTTOM) {
-            return Optional.of(position(this.column, this.row - 1));
-        }
-        if (direction == Direction.BOTTOM_LEFT) {
-            return Optional.of(position(this.column - 1, this.row - 1));
-        }
-        if (direction == Direction.LEFT) {
-            return Optional.of(position(this.column - 1, this.row));
-        }
-        if (direction == Direction.TOP_LEFT) {
-            return Optional.of(position(this.column - 1, this.row + 1));
-        }
-
-        return Optional.empty();
+        return Optional.of(direction.from(this));
     }
 
     @Override
