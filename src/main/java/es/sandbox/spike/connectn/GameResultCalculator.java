@@ -17,7 +17,7 @@ class GameResultCalculator {
         this.board = board;
     }
 
-    public Result calculate(Position position) {
+    public Result calculateFor(Position position) {
         Objects.requireNonNull(position, "Position must be not null");
 
         return chipAt(position)

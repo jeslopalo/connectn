@@ -43,7 +43,7 @@ public class Board {
     }
 
     private Result calculateResult(Position position) {
-        return this.gameResultCalculator.calculate(position);
+        return this.gameResultCalculator.calculateFor(position);
     }
 
     private int findFirstEmptyRowInColumn(int column) {

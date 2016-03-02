@@ -24,7 +24,7 @@ class GameResultCalculatorSpec extends Specification {
         def sut = new GameResultCalculator(board)
 
         when:
-        sut.calculate(null);
+        sut.calculateFor(null);
 
         then:
         NullPointerException exception = thrown()
@@ -40,7 +40,7 @@ class GameResultCalculatorSpec extends Specification {
         board.put(Color.RED, 0)
 
         when:
-        def result = new GameResultCalculator(board).calculate(Position.position(0, 1));
+        def result = new GameResultCalculator(board).calculateFor(Position.position(0, 1));
 
         then:
         result.winner().isPresent()
@@ -56,7 +56,7 @@ class GameResultCalculatorSpec extends Specification {
         board.put(Color.RED, 1)
 
         when:
-        def result = new GameResultCalculator(board).calculate(Position.position(1, 0));
+        def result = new GameResultCalculator(board).calculateFor(Position.position(1, 0));
 
         then:
         result.winner().isPresent()
@@ -72,7 +72,7 @@ class GameResultCalculatorSpec extends Specification {
         board.put(Color.RED, 0)
 
         when:
-        def result = new GameResultCalculator(board).calculate(Position.position(0, 1));
+        def result = new GameResultCalculator(board).calculateFor(Position.position(0, 1));
 
         then:
         result.winner().isPresent()
@@ -88,7 +88,7 @@ class GameResultCalculatorSpec extends Specification {
         board.put(Color.RED, 1)
 
         when:
-        def result = new GameResultCalculator(board).calculate(Position.position(1, 1));
+        def result = new GameResultCalculator(board).calculateFor(Position.position(1, 1));
 
         then:
         result.winner().isPresent()
