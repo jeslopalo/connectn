@@ -14,6 +14,11 @@ public class Board {
 
     private final Chip[][] chips;
 
+    /**
+     * @param chipsToWin
+     * @param columns
+     * @param rows
+     */
     public Board(int chipsToWin, int columns, int rows) {
         GameRules.validateDimensions(columns, rows);
         GameRules.validateChipsToWin(chipsToWin, columns, rows);
@@ -23,7 +28,13 @@ public class Board {
         this.gameResultCalculator = new GameResultCalculator(this, chipsToWin);
     }
 
-    public Result put(Color color, int column) {
+    /**
+     * @param color
+     * @param column
+     * @return
+     * @throws ColumnOutOfRangeException
+     */
+    public Result put(Color color, int column) throws ColumnOutOfRangeException {
         final Position position = findFirstEmptyPositionInColumn(column);
 
         this.chips[position.column()][position.row()] = new Chip(color, position);
@@ -46,6 +57,10 @@ public class Board {
         return this.gameResultCalculator.calculateFor(position);
     }
 
+    /**
+     * @param position
+     * @return
+     */
     public Optional<Color> colorAt(Position position) {
         Objects.requireNonNull(position, "Position must be non null");
 
@@ -53,6 +68,10 @@ public class Board {
                 .map(Chip::color);
     }
 
+    /**
+     * @param position
+     * @return
+     */
     public Optional<Chip> chipAt(Position position) {
         Objects.requireNonNull(position, "Position must be non null");
 
