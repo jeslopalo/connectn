@@ -1,0 +1,25 @@
+group 'es.sandbox.spike'
+version '0.1.0'
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+
+
+jar {
+    baseName = 'connect-n'
+    version = "${version}"
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'org.codehaus.groovy:groovy-all:2.4.5'
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'es.sandbox.test:sandbox-test-support:0.1.1'
+    testCompile 'nl.jqno.equalsverifier:equalsverifier:1.7.8'
+}
