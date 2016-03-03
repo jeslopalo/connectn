@@ -16,23 +16,21 @@ class Dimensions {
     }
 
     boolean contains(Position position) {
-        return columnIsInRange(position) && rowIsInRange(position);
+        return columnIsInRange(position.column()) && rowIsInRange(position.row());
     }
 
-/*
-    void validate(Position position) {
-        if (!contains(position)) {
-            throw new PositionOutOfRangeException(position, this);
+    void validateColumn(int column) {
+        if (!columnIsInRange(column)) {
+            throw new ColumnOutOfRangeException(column, this);
         }
     }
- */
 
-    private boolean rowIsInRange(Position position) {
-        return 0 <= position.row() && position.row() < this.rows;
+    private boolean rowIsInRange(int row) {
+        return 0 <= row && row < this.rows;
     }
 
-    private boolean columnIsInRange(Position position) {
-        return 0 <= position.column() && position.column() < this.columns;
+    private boolean columnIsInRange(int column) {
+        return 0 <= column && column < this.columns;
     }
 
     @Override

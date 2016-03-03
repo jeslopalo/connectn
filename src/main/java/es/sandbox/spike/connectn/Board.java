@@ -24,26 +24,26 @@ public class Board {
     }
 
     Result put(Color color, int column) {
-        final int row = findFirstEmptyRowInColumn(column);
-        final Position position = position(column, row);
+        final Position position = findFirstEmptyPositionInColumn(column);
 
-        this.chips[column][row] = new Chip(color, position);
+        this.chips[position.column()][position.row()] = new Chip(color, position);
 
         return calculateResultFor(position);
     }
 
-    private Result calculateResultFor(Position position) {
-        return this.gameResultCalculator.calculateFor(position);
-    }
-
-    private int findFirstEmptyRowInColumn(int column) {
+    private Position findFirstEmptyPositionInColumn(int column) throws ColumnOutOfRangeException {
+        this.dimensions.validateColumn(column);
 
         for (int row = 0; row < this.chips[column].length; row++) {
             if (this.chips[column][row] == null) {
-                return row;
+                return position(column, row);
             }
         }
         throw new ColumnIsFullException(column);
+    }
+
+    private Result calculateResultFor(Position position) {
+        return this.gameResultCalculator.calculateFor(position);
     }
 
     public Optional<Color> colorAt(Position position) {

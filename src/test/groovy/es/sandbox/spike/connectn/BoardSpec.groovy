@@ -107,6 +107,22 @@ class BoardSpec extends Specification {
         }
     }
 
+    def "should fail when put a chip in a column out of range"() {
+
+        given:
+        def sut = BoardMother.simplestBoard()
+
+        when:
+        sut.put(Color.RED, column)
+
+        then:
+        ColumnOutOfRangeException exception = thrown()
+        exception.message == "The column '" + column + "' is out of range [2x2]"
+
+        where:
+        column << [-2, -1, 3, 4, 5]
+    }
+
     def "should fail when put a chip in a full column"() {
 
         given:
