@@ -23,10 +23,6 @@ public class Board {
         this.gameResultCalculator = new GameResultCalculator(this, chipsToWin);
     }
 
-    Dimensions getDimensions() {
-        return this.dimensions;
-    }
-
     Result put(Color color, int column) {
         final int row = findFirstEmptyRowInColumn(column);
         final Position position = position(column, row);
