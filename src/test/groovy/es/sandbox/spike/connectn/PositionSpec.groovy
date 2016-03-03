@@ -1,5 +1,6 @@
 package es.sandbox.spike.connectn
 
+import nl.jqno.equalsverifier.EqualsVerifier
 import spock.lang.Specification
 
 /**
@@ -19,5 +20,14 @@ class PositionSpec extends Specification {
         2      | 3   || "[2, 3]"
         1      | 4   || "[1, 4]"
         0      | 5   || "[0, 5]"
+    }
+
+    def "should verify equals & hashcode contract"() {
+
+        when:
+        EqualsVerifier.forClass(Position.class).verify();
+
+        then:
+        noExceptionThrown()
     }
 }

@@ -6,7 +6,7 @@ import java.util.Optional;
 /**
  * Created by jeslopalo on 24/2/16.
  */
-class Position {
+final class Position {
     private final int column;
     private final int row;
 
