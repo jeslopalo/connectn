@@ -23,7 +23,7 @@ public class Board {
         this.gameResultCalculator = new GameResultCalculator(this, chipsToWin);
     }
 
-    Result put(Color color, int column) {
+    public Result put(Color color, int column) {
         final Position position = findFirstEmptyPositionInColumn(column);
 
         this.chips[position.column()][position.row()] = new Chip(color, position);
