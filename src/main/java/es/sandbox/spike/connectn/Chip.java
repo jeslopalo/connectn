@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Created by jeslopalo on 24/2/16.
  */
-class Chip {
+final class Chip {
     private final Color color;
     private final Position position;
 
@@ -24,7 +24,7 @@ class Chip {
 
     @Override
     public int hashCode() {
-        return Objects.hash(position);
+        return Objects.hash(this.position);
     }
 
     @Override
