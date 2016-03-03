@@ -6,7 +6,7 @@ package es.sandbox.spike.connectn;
 public enum Color {
     RED, YELLOW;
 
-    public Color rotate() {
+    Color rotate() {
         return rotate(this);
     }
 
