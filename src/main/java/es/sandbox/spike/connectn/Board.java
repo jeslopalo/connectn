@@ -11,8 +11,8 @@ import static es.sandbox.spike.connectn.Position.position;
 public class Board {
     private final Dimensions dimensions;
     private final GameResultCalculator gameResultCalculator;
-
     private final Chip[][] chips;
+
 
     /**
      * @param chipsToWin
