@@ -9,14 +9,10 @@ import static es.sandbox.spike.connectn.Position.position
  */
 class BoardSpec extends Specification {
 
-    private static final int ROWS = 10
-    private static final int COLUMNS = 10
-    private static final int CHIPS_TO_WIN = 2;
-
     def "should fail when chips to win is lower than 2"() {
 
         when:
-        new Board(chipsToWin, COLUMNS, ROWS);
+        new Board(chipsToWin, BoardMother.MEDIUM_BOARD_COLUMNS, BoardMother.MEDIUM_BOARD_ROWS);
 
         then:
         IllegalArgumentException exception = thrown();
@@ -29,7 +25,7 @@ class BoardSpec extends Specification {
     def "should fail when number of columns is lower than 2"() {
 
         when:
-        new Board(CHIPS_TO_WIN, numberOfColumns, ROWS)
+        new Board(BoardMother.MEDIUM_BOARD_CHIPS_TO_WIN, numberOfColumns, BoardMother.MEDIUM_BOARD_ROWS)
 
         then:
         IllegalArgumentException exception = thrown()
@@ -42,7 +38,7 @@ class BoardSpec extends Specification {
     def "should fail when number of columns is lower than chips to win"() {
 
         when:
-        new Board(6, numberOfColumns, ROWS)
+        new Board(6, numberOfColumns, BoardMother.MEDIUM_BOARD_ROWS)
 
         then:
         IllegalArgumentException exception = thrown()
@@ -55,7 +51,7 @@ class BoardSpec extends Specification {
     def "should fail when number of rows is lower than 2"() {
 
         when:
-        new Board(CHIPS_TO_WIN, COLUMNS, numberOfRows);
+        new Board(BoardMother.MEDIUM_BOARD_CHIPS_TO_WIN, BoardMother.MEDIUM_BOARD_COLUMNS, numberOfRows);
 
         then:
         IllegalArgumentException exception = thrown();
@@ -68,7 +64,7 @@ class BoardSpec extends Specification {
     def "should fail when number of rows is lower than chips to win"() {
 
         when:
-        new Board(6, COLUMNS, numberOfRows)
+        new Board(6, BoardMother.MEDIUM_BOARD_COLUMNS, numberOfRows)
 
         then:
         IllegalArgumentException exception = thrown()
@@ -81,7 +77,7 @@ class BoardSpec extends Specification {
     def "should put the first chip in a column"() {
 
         given:
-        def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
+        def sut = BoardMother.mediumSizedBoard();
 
         when:
         sut.put(Color.RED, 0)
@@ -93,7 +89,7 @@ class BoardSpec extends Specification {
     def "should fill a column"() {
 
         given:
-        def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
+        def sut = BoardMother.mediumSizedBoard();
 
         when:
         putChipsInColumnWithRotatingColors(sut, ROWS, 0, Color.RED);
@@ -126,7 +122,7 @@ class BoardSpec extends Specification {
     def "should fail when put a chip in a full column"() {
 
         given:
-        def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
+        def sut = BoardMother.mediumSizedBoard();
         putChipsInColumnWithRotatingColors(sut, ROWS, 0, Color.RED)
 
         when:
@@ -147,7 +143,7 @@ class BoardSpec extends Specification {
 
     def "should fail with null position when look for a chip"() {
         given:
-        def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS)
+        def sut = BoardMother.mediumSizedBoard();
 
         when:
         sut.chipAt(null)
@@ -159,7 +155,7 @@ class BoardSpec extends Specification {
 
     def "should get chips at known positions"() {
         given:
-        def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS);
+        def sut = BoardMother.mediumSizedBoard();
         sut.put(Color.RED, 0)
         sut.put(Color.YELLOW, 1)
 
@@ -170,7 +166,7 @@ class BoardSpec extends Specification {
 
     def "should fail with null position when look for a color"() {
         given:
-        def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS);
+        def sut = BoardMother.mediumSizedBoard();
 
         when:
         sut.colorAt(null);
@@ -182,7 +178,7 @@ class BoardSpec extends Specification {
 
     def "should get colors at known positions"() {
         given:
-        def sut = new Board(CHIPS_TO_WIN, COLUMNS, ROWS);
+        def sut = BoardMother.mediumSizedBoard();
         sut.put(Color.RED, 0);
         sut.put(Color.YELLOW, 0);
         sut.put(Color.YELLOW, 1);
@@ -197,7 +193,7 @@ class BoardSpec extends Specification {
 
     def "should result in draw when put a chip in a non winner position"() {
         given:
-        def sut = new Board(2, 2, 2);
+        def sut = BoardMother.simplestBoard();
 
         when:
         def result = sut.put(Color.RED, 0);
@@ -210,7 +206,7 @@ class BoardSpec extends Specification {
     def "should finish the game with 2 chips to win and 2 consecutive Red chips"() {
 
         given:
-        def sut = new Board(2, 2, 2)
+        def sut = BoardMother.simplestBoard();
         sut.put(Color.RED, 0)
         sut.put(Color.YELLOW, 1)
 
