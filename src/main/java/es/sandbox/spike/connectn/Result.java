@@ -1,5 +1,7 @@
 package es.sandbox.spike.connectn;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -7,18 +9,18 @@ import java.util.stream.Collectors;
 /**
  * Created by jeslopalo on 29/2/16.
  */
-class Result {
+final class Result {
 
-    private Color color;
-    private Set<Chip> chips;
+    private final Color color;
+    private final Set<Chip> chips;
+
+    private Result() {
+        this(null, new HashSet<>());
+    }
 
     private Result(Color color, Set<Chip> chips) {
         this.color = color;
         this.chips = chips;
-    }
-
-    private Result() {
-
     }
 
     public static Result draw() {
@@ -30,11 +32,29 @@ class Result {
     }
 
     public Optional<Color> winner() {
-        return this.color == null ? Optional.empty() : Optional.of(this.color);
+        return Optional.ofNullable(this.color);
     }
 
     private boolean isGameOver() {
         return this.color != null;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, chips);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final Result other = (Result) obj;
+        return Objects.equals(this.color, other.color)
+                && Objects.equals(this.chips, other.chips);
     }
 
     @Override
