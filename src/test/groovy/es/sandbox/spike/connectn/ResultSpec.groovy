@@ -1,5 +1,6 @@
 package es.sandbox.spike.connectn
 
+import nl.jqno.equalsverifier.EqualsVerifier
 import spock.lang.Specification
 
 import static es.sandbox.spike.connectn.Position.position
@@ -33,12 +34,21 @@ class ResultSpec extends Specification {
         result.toString() == "RED win! positions: {[0, 0], [0, 1]}"
     }
 
-    private Set<Chip> chips(Color color, Position... positions) {
+    private static Set<Chip> chips(Color color, Position... positions) {
 
         final Set<Chip> chips = new HashSet<>()
         for (Position position : positions) {
             chips.add(new Chip(color, position));
         }
         return chips;
+    }
+
+    def "should verify equals & hashcode contract"() {
+
+        when:
+        EqualsVerifier.forClass(Result.class).verify();
+
+        then:
+        noExceptionThrown()
     }
 }

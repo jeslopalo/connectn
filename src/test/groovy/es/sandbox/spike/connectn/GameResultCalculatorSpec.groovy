@@ -4,6 +4,7 @@ import spock.lang.Specification
 
 import static es.sandbox.spike.connectn.BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN
 import static es.sandbox.spike.connectn.BoardMother.simplestBoard
+import static es.sandbox.spike.connectn.Position.position
 
 /**
  * Created by jeslopalo on 29/2/16.
@@ -50,6 +51,31 @@ class GameResultCalculatorSpec extends Specification {
         exception.message == "Position must be not null"
     }
 
+    def "should calculate draw when there is no winner"() {
+        given:
+        def board = simplestBoard()
+        board.put(Color.RED, 0)
+        def sut = new GameResultCalculator(board, SIMPLEST_BOARD_CHIPS_TO_WIN)
+
+        when:
+        def result = sut.calculateFor(position(0, 0))
+
+        then:
+        result == Result.draw()
+    }
+
+    def "should calculate draw when there is no chip at position"() {
+        given:
+        def board = simplestBoard()
+        def sut = new GameResultCalculator(board, SIMPLEST_BOARD_CHIPS_TO_WIN)
+
+        when:
+        def result = sut.calculateFor(position(0, 0))
+
+        then:
+        result == Result.draw()
+    }
+
     def "should calculate winner in vertical direction"() {
 
         given:
@@ -60,7 +86,7 @@ class GameResultCalculatorSpec extends Specification {
         def sut = new GameResultCalculator(board, SIMPLEST_BOARD_CHIPS_TO_WIN)
 
         when:
-        def result = sut.calculateFor(Position.position(0, 1));
+        def result = sut.calculateFor(position(0, 1));
 
         then:
         result.winner().isPresent()
@@ -77,7 +103,7 @@ class GameResultCalculatorSpec extends Specification {
         def sut = new GameResultCalculator(board, SIMPLEST_BOARD_CHIPS_TO_WIN)
 
         when:
-        def result = sut.calculateFor(Position.position(1, 0));
+        def result = sut.calculateFor(position(1, 0));
 
         then:
         result.winner().isPresent()
@@ -94,7 +120,7 @@ class GameResultCalculatorSpec extends Specification {
         def sut = new GameResultCalculator(board, SIMPLEST_BOARD_CHIPS_TO_WIN)
 
         when:
-        def result = sut.calculateFor(Position.position(0, 1));
+        def result = sut.calculateFor(position(0, 1));
 
         then:
         result.winner().isPresent()
@@ -111,7 +137,7 @@ class GameResultCalculatorSpec extends Specification {
         def sut = new GameResultCalculator(board, SIMPLEST_BOARD_CHIPS_TO_WIN)
 
         when:
-        def result = sut.calculateFor(Position.position(1, 1));
+        def result = sut.calculateFor(position(1, 1));
 
         then:
         result.winner().isPresent()
