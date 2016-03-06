@@ -29,7 +29,7 @@ final class BoardMother {
         return new Board(MEDIUM_BOARD_CHIPS_TO_WIN, MEDIUM_BOARD_COLUMNS, MEDIUM_BOARD_ROWS);
     }
 
-    static Board mediumSizedBard(List<Integer> redPlays, List<Integer> yellowPlays) {
+    static Board mediumSizedBoard(List<Integer> redPlays, List<Integer> yellowPlays) {
         final Board board = mediumSizedBoard();
 
         playTheGame(board, redPlays, yellowPlays);
