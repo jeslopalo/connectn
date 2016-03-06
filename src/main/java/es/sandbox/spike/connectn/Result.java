@@ -35,7 +35,7 @@ final class Result {
         return Optional.ofNullable(this.color);
     }
 
-    private boolean isGameOver() {
+    boolean isGameOver() {
         return this.color != null;
     }
 

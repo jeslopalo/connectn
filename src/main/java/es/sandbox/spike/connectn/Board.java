@@ -11,7 +11,6 @@ import static es.sandbox.spike.connectn.Position.position;
 public class Board {
     private final Dimensions dimensions;
     private final GameResultCalculator gameResultCalculator;
-
     private final Chip[][] chips;
 
     /**
@@ -33,10 +32,12 @@ public class Board {
      * @param column
      * @return
      * @throws ColumnOutOfRangeException
+     * @throws GameOverException
      */
-    public Result put(Color color, int column) throws ColumnOutOfRangeException {
-        final Position position = findFirstEmptyPositionInColumn(column);
+    public Result put(Color color, int column) throws ColumnOutOfRangeException, GameOverException {
+        this.gameResultCalculator.assertThatGameIsOnGoing();
 
+        final Position position = findFirstEmptyPositionInColumn(column);
         this.chips[position.column()][position.row()] = new Chip(color, position);
 
         return calculateResultFor(position);
