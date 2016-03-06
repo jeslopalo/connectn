@@ -143,4 +143,32 @@ class GameResultCalculatorSpec extends Specification {
         result.winner().isPresent()
         result.winner().get() == Color.RED
     }
+
+    def "should fail when the game is over"() {
+
+        given:
+        def board = BoardMother.simplestBoard([0, 0], [1])
+        def sut = new GameResultCalculator(board, BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN)
+        sut.calculateFor(position(0, 1))
+
+        when:
+        sut.assertThatGameIsOnGoing()
+
+        then:
+        GameOverException exception = thrown()
+        exception.message == "Sorry! The game is over. RED win! positions: {[0, 0], [0, 1]}"
+    }
+
+    def "should assert that game is on going"() {
+
+        given:
+        def board = BoardMother.simplestBoard();
+        def sut = new GameResultCalculator(board, BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN)
+
+        when:
+        sut.assertThatGameIsOnGoing()
+
+        then:
+        noExceptionThrown()
+    }
 }

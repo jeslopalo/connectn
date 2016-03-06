@@ -9,10 +9,11 @@ import java.util.stream.Stream;
 /**
  * Created by jeslopalo on 29/2/16.
  */
-class GameResultCalculator {
+final class GameResultCalculator {
 
     private final Board board;
     private final int chipsToWin;
+    private Result result;
 
     GameResultCalculator(Board board, int chipsToWin) {
         Objects.requireNonNull(board, "Board must be not null");
@@ -20,11 +21,19 @@ class GameResultCalculator {
 
         this.board = board;
         this.chipsToWin = chipsToWin;
+        this.result = Result.draw();
     }
 
     public Result calculateFor(Position position) {
         Objects.requireNonNull(position, "Position must be not null");
 
+        if (!this.result.isGameOver()) {
+            this.result = resultFor(position);
+        }
+        return this.result;
+    }
+
+    private Result resultFor(Position position) {
         return chipAt(position)
                 .map(chip ->
                         findFirstWinnerLineFrom(chip)
@@ -66,5 +75,11 @@ class GameResultCalculator {
 
     private Optional<Chip> chipAt(Position position) {
         return this.board.chipAt(position);
+    }
+
+    public void assertThatGameIsOnGoing() throws GameOverException {
+        if (this.result.isGameOver()) {
+            throw new GameOverException(this.result);
+        }
     }
 }
