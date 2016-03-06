@@ -11,7 +11,7 @@ final class BoardMother {
 
     public static final MEDIUM_BOARD_COLUMNS = 10;
     public static final MEDIUM_BOARD_ROWS = 10;
-    public static final MEDIUM_BOARD_CHIPS_TO_WIN = 2;
+    public static final MEDIUM_BOARD_CHIPS_TO_WIN = 3;
 
     static Board simplestBoard() {
         return new Board(SIMPLEST_BOARD_COLUMNS, SIMPLEST_BOARD_ROWS, SIMPLEST_BOARD_CHIPS_TO_WIN)
@@ -48,7 +48,7 @@ final class BoardMother {
             }
 
             if (yellows.peek() != null) {
-                board.put(Color.RED, yellows.poll());
+                board.put(Color.YELLOW, yellows.poll());
             }
         }
     }
