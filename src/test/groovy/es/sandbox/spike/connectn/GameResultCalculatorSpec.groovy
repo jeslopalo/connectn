@@ -158,4 +158,17 @@ class GameResultCalculatorSpec extends Specification {
         GameOverException exception = thrown()
         exception.message == "Sorry! The game is over. RED win! positions: {[0, 0], [0, 1]}"
     }
+
+    def "should assert that game is on going"() {
+
+        given:
+        def board = BoardMother.simplestBoard();
+        def sut = new GameResultCalculator(board, BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN)
+
+        when:
+        sut.assertThatGameIsOnGoing()
+
+        then:
+        noExceptionThrown()
+    }
 }
