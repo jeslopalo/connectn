@@ -12,7 +12,7 @@ class BoardSpec extends Specification {
     def "should fail when chips to win is lower than 2"() {
 
         when:
-        new Board(chipsToWin, BoardMother.MEDIUM_BOARD_COLUMNS, BoardMother.MEDIUM_BOARD_ROWS);
+        new Board(chipsToWin, BoardMother.MEDIUM_BOARD_COLUMNS, BoardMother.MEDIUM_BOARD_ROWS, BoardMother.MEDIUM_BOARD_STARTING_COLOR);
 
         then:
         IllegalArgumentException exception = thrown();
@@ -25,7 +25,7 @@ class BoardSpec extends Specification {
     def "should fail when number of columns is lower than 2"() {
 
         when:
-        new Board(BoardMother.MEDIUM_BOARD_CHIPS_TO_WIN, numberOfColumns, BoardMother.MEDIUM_BOARD_ROWS)
+        new Board(BoardMother.MEDIUM_BOARD_CHIPS_TO_WIN, numberOfColumns, BoardMother.MEDIUM_BOARD_ROWS, BoardMother.MEDIUM_BOARD_STARTING_COLOR)
 
         then:
         IllegalArgumentException exception = thrown()
@@ -38,7 +38,7 @@ class BoardSpec extends Specification {
     def "should fail when number of columns is lower than chips to win"() {
 
         when:
-        new Board(6, numberOfColumns, BoardMother.MEDIUM_BOARD_ROWS)
+        new Board(6, numberOfColumns, BoardMother.MEDIUM_BOARD_ROWS, BoardMother.MEDIUM_BOARD_STARTING_COLOR)
 
         then:
         IllegalArgumentException exception = thrown()
@@ -51,7 +51,7 @@ class BoardSpec extends Specification {
     def "should fail when number of rows is lower than 2"() {
 
         when:
-        new Board(BoardMother.MEDIUM_BOARD_CHIPS_TO_WIN, BoardMother.MEDIUM_BOARD_COLUMNS, numberOfRows);
+        new Board(BoardMother.MEDIUM_BOARD_CHIPS_TO_WIN, BoardMother.MEDIUM_BOARD_COLUMNS, numberOfRows, BoardMother.MEDIUM_BOARD_STARTING_COLOR);
 
         then:
         IllegalArgumentException exception = thrown();
@@ -64,7 +64,7 @@ class BoardSpec extends Specification {
     def "should fail when number of rows is lower than chips to win"() {
 
         when:
-        new Board(6, BoardMother.MEDIUM_BOARD_COLUMNS, numberOfRows)
+        new Board(6, BoardMother.MEDIUM_BOARD_COLUMNS, numberOfRows, BoardMother.MEDIUM_BOARD_STARTING_COLOR)
 
         then:
         IllegalArgumentException exception = thrown()
@@ -72,6 +72,16 @@ class BoardSpec extends Specification {
 
         where:
         numberOfRows << [3, 4, 5]
+    }
+
+    def "should fail when starting color is null"() {
+
+        when:
+        new Board(BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN, BoardMother.SIMPLEST_BOARD_COLUMNS, BoardMother.SIMPLEST_BOARD_ROWS, null)
+
+        then:
+        NullPointerException exception = thrown()
+        exception.message == "Starting color may not be null"
     }
 
     def "should put the first chip in a column"() {
@@ -92,7 +102,7 @@ class BoardSpec extends Specification {
         def sut = BoardMother.mediumSizedBoard();
 
         when:
-        BoardMother.playTheGame(sut, [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]);
+        BoardMother.playTheGame(sut, Color.RED, [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]);
 
         then:
         def color = Color.RED
@@ -129,6 +139,19 @@ class BoardSpec extends Specification {
         then:
         ColumnIsFullException exception = thrown()
         exception.message == "Column <0> is full"
+    }
+
+    def "should fail with a color in wrong turn"() {
+
+        given:
+        def sut = new Board(3, 5, 5, Color.RED)
+
+        when:
+        sut.put(Color.YELLOW, 0)
+
+        then:
+        WrongTurnException exception = thrown()
+        exception.message == "Cannot put a YELLOW chip. It's the RED turn!"
     }
 
     def "should fail with null position when look for a chip"() {

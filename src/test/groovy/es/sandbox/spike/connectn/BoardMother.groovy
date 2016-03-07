@@ -8,47 +8,50 @@ final class BoardMother {
     public static final SIMPLEST_BOARD_COLUMNS = 2;
     public static final SIMPLEST_BOARD_ROWS = 2;
     public static final SIMPLEST_BOARD_CHIPS_TO_WIN = 2;
+    public static final SIMPLEST_BOARD_STARTING_COLOR = Color.RED;
 
     public static final MEDIUM_BOARD_COLUMNS = 10;
     public static final MEDIUM_BOARD_ROWS = 10;
     public static final MEDIUM_BOARD_CHIPS_TO_WIN = 3;
+    public static final MEDIUM_BOARD_STARTING_COLOR = Color.RED;
 
     static Board simplestBoard() {
-        return new Board(SIMPLEST_BOARD_COLUMNS, SIMPLEST_BOARD_ROWS, SIMPLEST_BOARD_CHIPS_TO_WIN)
+        return new Board(SIMPLEST_BOARD_COLUMNS, SIMPLEST_BOARD_ROWS, SIMPLEST_BOARD_CHIPS_TO_WIN, SIMPLEST_BOARD_STARTING_COLOR)
     }
 
     static Board simplestBoard(List<Integer> redPlays, List<Integer> yellowPlays) {
         final Board board = simplestBoard();
 
-        playTheGame(board, redPlays, yellowPlays)
+        playTheGame(board, Color.RED, redPlays, yellowPlays)
 
         return board;
     }
 
     static Board mediumSizedBoard() {
-        return new Board(MEDIUM_BOARD_CHIPS_TO_WIN, MEDIUM_BOARD_COLUMNS, MEDIUM_BOARD_ROWS);
+        return new Board(MEDIUM_BOARD_CHIPS_TO_WIN, MEDIUM_BOARD_COLUMNS, MEDIUM_BOARD_ROWS, MEDIUM_BOARD_STARTING_COLOR);
     }
 
     static Board mediumSizedBoard(List<Integer> redPlays, List<Integer> yellowPlays) {
         final Board board = mediumSizedBoard();
 
-        playTheGame(board, redPlays, yellowPlays);
+        playTheGame(board, Color.RED, redPlays, yellowPlays);
 
         return board;
     }
 
-    public static void playTheGame(Board board, List<Integer> redPlays, List<Integer> yellowPlays) {
-        final Queue<Integer> reds = new LinkedList<>(redPlays);
-        final Queue<Integer> yellows = new LinkedList<>(yellowPlays);
+    public
+    static void playTheGame(Board board, Color firstPlayerColor, List<Integer> firstPlayerMoves, List<Integer> secondPlayerMoves) {
+        final Queue<Integer> p1Moves = new LinkedList<>(firstPlayerMoves);
+        final Queue<Integer> p2Moves = new LinkedList<>(secondPlayerMoves);
 
-        for (int plays = 0; plays < Math.max(redPlays.size(), yellowPlays.size()); plays++) {
+        for (int plays = 0; plays < Math.max(firstPlayerMoves.size(), secondPlayerMoves.size()); plays++) {
 
-            if (reds.peek() != null) {
-                board.put(Color.RED, reds.poll());
+            if (p1Moves.peek() != null) {
+                board.put(firstPlayerColor, p1Moves.poll());
             }
 
-            if (yellows.peek() != null) {
-                board.put(Color.YELLOW, yellows.poll());
+            if (p2Moves.peek() != null) {
+                board.put(firstPlayerColor.rotate(), p2Moves.poll());
             }
         }
     }

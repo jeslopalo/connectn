@@ -12,19 +12,22 @@ public class Board {
     private final Dimensions dimensions;
     private final GameResultCalculator gameResultCalculator;
     private final Chip[][] chips;
+    private Color nextTurn;
 
     /**
      * @param chipsToWin
      * @param columns
      * @param rows
      */
-    public Board(int chipsToWin, int columns, int rows) {
+    public Board(int chipsToWin, int columns, int rows, Color startingColor) {
         GameRules.validateDimensions(columns, rows);
         GameRules.validateChipsToWin(chipsToWin, columns, rows);
+        Objects.requireNonNull(startingColor, "Starting color may not be null");
 
         this.dimensions = new Dimensions(columns, rows);
         this.chips = new Chip[columns][rows];
         this.gameResultCalculator = new GameResultCalculator(this, chipsToWin);
+        this.nextTurn = startingColor;
     }
 
     /**
@@ -32,15 +35,25 @@ public class Board {
      * @param column
      * @return
      * @throws ColumnOutOfRangeException
+     * @throws WrongTurnException
      * @throws GameOverException
      */
-    public Result put(Color color, int column) throws ColumnOutOfRangeException, GameOverException {
+    public Result put(Color color, int column) throws ColumnOutOfRangeException, WrongTurnException, GameOverException {
+
         this.gameResultCalculator.assertThatGameIsOnGoing();
 
+        consumeTurnFor(color);
         final Position position = findFirstEmptyPositionInColumn(column);
         this.chips[position.column()][position.row()] = new Chip(color, position);
 
         return calculateResultFor(position);
+    }
+
+    private void consumeTurnFor(Color color) {
+        if (this.nextTurn != color) {
+            throw new WrongTurnException(color);
+        }
+        this.nextTurn = color.rotate();
     }
 
     private Position findFirstEmptyPositionInColumn(int column) throws ColumnOutOfRangeException {
