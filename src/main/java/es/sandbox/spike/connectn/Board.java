@@ -35,23 +35,25 @@ public class Board {
      * @param column
      * @return
      * @throws ColumnOutOfRangeException
+     * @throws WrongTurnException
      * @throws GameOverException
      */
-    public Result put(Color color, int column) throws ColumnOutOfRangeException, GameOverException {
-        this.gameResultCalculator.assertThatGameIsOnGoing();
-        assertThatIsTheRightColor(color);
+    public Result put(Color color, int column) throws ColumnOutOfRangeException, WrongTurnException, GameOverException {
 
+        this.gameResultCalculator.assertThatGameIsOnGoing();
+
+        consumeTurnFor(color);
         final Position position = findFirstEmptyPositionInColumn(column);
         this.chips[position.column()][position.row()] = new Chip(color, position);
-        this.nextTurn = color.rotate();
 
         return calculateResultFor(position);
     }
 
-    private void assertThatIsTheRightColor(Color color) {
+    private void consumeTurnFor(Color color) {
         if (this.nextTurn != color) {
             throw new WrongTurnException(color);
         }
+        this.nextTurn = color.rotate();
     }
 
     private Position findFirstEmptyPositionInColumn(int column) throws ColumnOutOfRangeException {

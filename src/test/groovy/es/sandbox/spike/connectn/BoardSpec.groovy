@@ -80,7 +80,7 @@ class BoardSpec extends Specification {
         new Board(BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN, BoardMother.SIMPLEST_BOARD_COLUMNS, BoardMother.SIMPLEST_BOARD_ROWS, null)
 
         then:
-        NullPointerException exception= thrown()
+        NullPointerException exception = thrown()
         exception.message == "Starting color may not be null"
     }
 
@@ -144,13 +144,13 @@ class BoardSpec extends Specification {
     def "should fail with a color in wrong turn"() {
 
         given:
-        def sut= new Board(3, 5, 5, Color.RED)
+        def sut = new Board(3, 5, 5, Color.RED)
 
         when:
         sut.put(Color.YELLOW, 0)
 
         then:
-        WrongTurnException exception= thrown()
+        WrongTurnException exception = thrown()
         exception.message == "Cannot put a YELLOW chip. It's the RED turn!"
     }
 
