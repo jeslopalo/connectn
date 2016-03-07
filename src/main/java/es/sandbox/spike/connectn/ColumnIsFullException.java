@@ -3,7 +3,7 @@ package es.sandbox.spike.connectn;
 /**
  * Created by jeslopalo on 24/2/16.
  */
-class ColumnIsFullException extends RuntimeException {
+class ColumnIsFullException extends IllegalStateException {
 
     public ColumnIsFullException(int column) {
         super(message(column));

@@ -3,7 +3,7 @@ package es.sandbox.spike.connectn;
 /**
  * Created by jeslopalo on 6/3/16.
  */
-public final class GameOverException extends RuntimeException {
+public final class GameOverException extends IllegalStateException {
 
     GameOverException(Result result) {
         super(message(result));
