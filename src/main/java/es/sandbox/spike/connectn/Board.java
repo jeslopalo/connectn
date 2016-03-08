@@ -2,6 +2,7 @@ package es.sandbox.spike.connectn;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static es.sandbox.spike.connectn.Position.position;
 
@@ -59,12 +60,11 @@ public class Board {
     private Position findFirstEmptyPositionInColumn(int column) throws ColumnOutOfRangeException {
         this.dimensions.validateColumn(column);
 
-        for (int row = 0; row < this.chips[column].length; row++) {
-            if (this.chips[column][row] == null) {
-                return position(column, row);
-            }
-        }
-        throw new ColumnIsFullException(column);
+        return IntStream.range(0, this.chips[column].length)
+                .filter(row -> this.chips[column][row] == null)
+                .mapToObj(row -> position(column, row))
+                .findFirst()
+                .orElseThrow(() -> new ColumnIsFullException(column));
     }
 
     private Result calculateResultFor(Position position) {
