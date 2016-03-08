@@ -12,7 +12,7 @@ class DimensionsSpec extends Specification {
     def "should fail when columns size is lower than 2"() {
 
         when:
-        new Dimensions(columns, 5)
+        Dimensions.dimensions(columns, 5)
 
         then:
         IllegalArgumentException exception = thrown()
@@ -25,7 +25,7 @@ class DimensionsSpec extends Specification {
     def "should fail when rows size is lower than 2"() {
 
         when:
-        new Dimensions(5, rows)
+        Dimensions.dimensions(5, rows)
 
         then:
         IllegalArgumentException exception = thrown()
@@ -38,7 +38,7 @@ class DimensionsSpec extends Specification {
     def "should return dimensions as a 'columnsxrows' string"() {
 
         expect:
-        new Dimensions(columns, rows).toString() == stringify
+        Dimensions.dimensions(columns, rows).toString() == stringify
 
         where:
         columns | rows || stringify
@@ -50,7 +50,7 @@ class DimensionsSpec extends Specification {
     def "should check whether a position is contained"() {
 
         given:
-        def dimensions = new Dimensions(3, 3)
+        def dimensions = Dimensions.dimensions(3, 3)
 
         expect:
         dimensions.contains(position) == contained

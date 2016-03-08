@@ -25,7 +25,7 @@ public class Board {
         GameRules.validateChipsToWin(chipsToWin, columns, rows);
         Objects.requireNonNull(startingColor, "Starting color may not be null");
 
-        this.dimensions = new Dimensions(columns, rows);
+        this.dimensions = Dimensions.dimensions(columns, rows);
         this.chips = new Chip[columns][rows];
         this.gameResultCalculator = new GameResultCalculator(this, chipsToWin);
         this.nextTurn = startingColor;
