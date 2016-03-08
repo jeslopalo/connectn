@@ -53,7 +53,7 @@ class GameRulesSpec extends Specification {
     def "should fail when chips to win is lower than two"() {
 
         when:
-        GameRules.validateChipsToWin(chipsToWin, 5, 5);
+        GameRules.validateChipsToWin(chipsToWin, Dimensions.dimensions(5, 5));
 
         then:
         IllegalArgumentException exception = thrown()
@@ -66,7 +66,7 @@ class GameRulesSpec extends Specification {
     def "should fail when chips to win is greater than the number of columns"() {
 
         when:
-        GameRules.validateChipsToWin(chipsToWin, 5, 15)
+        GameRules.validateChipsToWin(chipsToWin, Dimensions.dimensions(5, 15));
 
         then:
         IllegalArgumentException exception = thrown()
@@ -79,7 +79,7 @@ class GameRulesSpec extends Specification {
     def "should fail when chips to win is greater than the number of rows"() {
 
         when:
-        GameRules.validateChipsToWin(chipsToWin, 15, 5)
+        GameRules.validateChipsToWin(chipsToWin, Dimensions.dimensions(15, 5));
 
         then:
         IllegalArgumentException exception = thrown()
@@ -92,7 +92,7 @@ class GameRulesSpec extends Specification {
     def "should validate chips to win when are lower or equal than columns and rows"() {
 
         when:
-        GameRules.validateChipsToWin(chipsToWin, columns, rows)
+        GameRules.validateChipsToWin(chipsToWin, Dimensions.dimensions(columns, rows))
 
         then:
         noExceptionThrown()
@@ -111,5 +111,14 @@ class GameRulesSpec extends Specification {
         3          | 10      | 3
         3          | 10      | 4
         3          | 5       | 10
+    }
+
+    def "should fail when dimensions are null"() {
+        when:
+        GameRules.validateChipsToWin(3, null)
+
+        then:
+        NullPointerException exception = thrown()
+        exception.message == "Dimensions must not be null"
     }
 }

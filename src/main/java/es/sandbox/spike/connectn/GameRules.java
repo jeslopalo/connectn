@@ -1,5 +1,7 @@
 package es.sandbox.spike.connectn;
 
+import java.util.Objects;
+
 /**
  * Created by jeslopalo on 25/2/16.
  */
@@ -10,10 +12,11 @@ final class GameRules {
         assertThatNumberOfRowsIsGreaterOrEqualThanTwo(rows);
     }
 
-    static void validateChipsToWin(int chipsToWin, int columns, int rows) {
+    static void validateChipsToWin(int chipsToWin, Dimensions dimensions) {
+        Objects.requireNonNull(dimensions, "Dimensions must not be null");
         assertThatChipsToWinIsGreaterThanOne(chipsToWin);
-        assertThatChipsToWinIsLowerOrEqualThanNumberOfColumns(chipsToWin, columns);
-        assertThatChipsToWinIsLowerOrEqualThanNumberOfRows(chipsToWin, rows);
+        assertThatChipsToWinIsLowerOrEqualThanNumberOfColumns(chipsToWin, dimensions.getColumns());
+        assertThatChipsToWinIsLowerOrEqualThanNumberOfRows(chipsToWin, dimensions.getRows());
     }
 
     private static void assertThatNumberOfColumnsIsGreaterOrEqualThanTwo(int columns) {

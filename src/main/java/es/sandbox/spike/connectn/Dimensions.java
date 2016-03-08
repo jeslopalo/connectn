@@ -19,6 +19,14 @@ final class Dimensions {
         return new Dimensions(columns, rows);
     }
 
+    int getColumns() {
+        return this.columns;
+    }
+
+    int getRows() {
+        return this.rows;
+    }
+
     boolean contains(Position position) {
         return columnIsInRange(position.column()) && rowIsInRange(position.row());
     }
