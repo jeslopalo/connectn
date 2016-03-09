@@ -35,6 +35,38 @@ class DimensionsSpec extends Specification {
         rows << [-2, -1, 0, 1]
     }
 
+    def "should fail when dimensions (columns or rows) are lower than two"() {
+
+        when:
+        Dimensions.dimensions(columns, rows)
+
+        then:
+        IllegalArgumentException exception = thrown()
+        exception.message == message
+
+        where:
+        columns | rows | message
+        -1      | 3    | "The number of columns must be greater or equal than 2"
+        0       | 3    | "The number of columns must be greater or equal than 2"
+        1       | 3    | "The number of columns must be greater or equal than 2"
+        3       | -1   | "The number of rows must be greater or equal than 2"
+        3       | 0    | "The number of rows must be greater or equal than 2"
+        3       | 1    | "The number of rows must be greater or equal than 2"
+    }
+
+    def "should validate dimensions (columns or rows) when are greater or equal than two"() {
+
+        when:
+        Dimensions.dimensions(columns, rows);
+
+        then:
+        noExceptionThrown()
+
+        where:
+        columns << [2, 3, 4, 5, 5, 4, 3, 2]
+        rows << [2, 3, 4, 5, 2, 3, 4, 5]
+    }
+
     def "should return dimensions as a 'columnsxrows' string"() {
 
         expect:

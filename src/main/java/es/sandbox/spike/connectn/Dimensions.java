@@ -9,7 +9,7 @@ final class Dimensions {
     private final int rows;
 
     private Dimensions(int columns, int rows) {
-        GameRules.validateDimensions(columns, rows);
+        validateDimensions(columns, rows);
 
         this.columns = columns;
         this.rows = rows;
@@ -43,6 +43,23 @@ final class Dimensions {
 
     private boolean columnIsInRange(int column) {
         return 0 <= column && column < this.columns;
+    }
+
+    static void validateDimensions(int columns, int rows) {
+        assertThatNumberOfColumnsIsGreaterOrEqualThanTwo(columns);
+        assertThatNumberOfRowsIsGreaterOrEqualThanTwo(rows);
+    }
+
+    private static void assertThatNumberOfColumnsIsGreaterOrEqualThanTwo(int columns) {
+        if (columns < 2) {
+            throw new IllegalArgumentException("The number of columns must be greater or equal than 2");
+        }
+    }
+
+    private static void assertThatNumberOfRowsIsGreaterOrEqualThanTwo(int rows) {
+        if (rows < 2) {
+            throw new IllegalArgumentException("The number of rows must be greater or equal than 2");
+        }
     }
 
     @Override

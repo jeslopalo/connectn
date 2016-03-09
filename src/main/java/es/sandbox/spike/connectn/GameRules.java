@@ -7,11 +7,6 @@ import java.util.Objects;
  */
 final class GameRules {
 
-    static void validateDimensions(int columns, int rows) {
-        assertThatNumberOfColumnsIsGreaterOrEqualThanTwo(columns);
-        assertThatNumberOfRowsIsGreaterOrEqualThanTwo(rows);
-    }
-
     static void validateChipsToWin(int chipsToWin, Dimensions dimensions) {
         Objects.requireNonNull(dimensions, "Dimensions must not be null");
         assertThatChipsToWinIsGreaterThanOne(chipsToWin);
@@ -19,21 +14,9 @@ final class GameRules {
         assertThatChipsToWinIsLowerOrEqualThanNumberOfRows(chipsToWin, dimensions.getRows());
     }
 
-    private static void assertThatNumberOfColumnsIsGreaterOrEqualThanTwo(int columns) {
-        if (columns < 2) {
-            throw new IllegalArgumentException("The number of columns must be greater or equal than 2");
-        }
-    }
-
     private static void assertThatChipsToWinIsLowerOrEqualThanNumberOfColumns(int chipsToWin, int columns) {
         if (chipsToWin > columns) {
             throw new IllegalArgumentException("Chips to win must be lower or equal than the number of columns");
-        }
-    }
-
-    private static void assertThatNumberOfRowsIsGreaterOrEqualThanTwo(int rows) {
-        if (rows < 2) {
-            throw new IllegalArgumentException("The number of rows must be greater or equal than 2");
         }
     }
 
