@@ -16,17 +16,17 @@ public class Board {
     private Color nextTurn;
 
     /**
+     * @param dimensions
      * @param chipsToWin
-     * @param columns
-     * @param rows
+     * @param startingColor
      */
-    public Board(int chipsToWin, int columns, int rows, Color startingColor) {
-        GameRules.validateDimensions(columns, rows);
-        GameRules.validateChipsToWin(chipsToWin, columns, rows);
+    public Board(Dimensions dimensions, int chipsToWin, Color startingColor) {
+        Objects.requireNonNull(dimensions, "Dimensions may not be null");
+        GameRules.validateChipsToWin(chipsToWin, dimensions);
         Objects.requireNonNull(startingColor, "Starting color may not be null");
 
-        this.dimensions = new Dimensions(columns, rows);
-        this.chips = new Chip[columns][rows];
+        this.dimensions = dimensions;
+        this.chips = new Chip[dimensions.getColumns()][dimensions.getRows()];
         this.gameResultCalculator = new GameResultCalculator(this, chipsToWin);
         this.nextTurn = startingColor;
     }

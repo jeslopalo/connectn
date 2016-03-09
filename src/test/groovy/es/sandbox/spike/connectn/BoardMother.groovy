@@ -7,16 +7,18 @@ final class BoardMother {
 
     public static final SIMPLEST_BOARD_COLUMNS = 2;
     public static final SIMPLEST_BOARD_ROWS = 2;
+    public static final SIMPLEST_BOARD_DIMENSIONS = Dimensions.dimensions(SIMPLEST_BOARD_COLUMNS, SIMPLEST_BOARD_ROWS)
     public static final SIMPLEST_BOARD_CHIPS_TO_WIN = 2;
     public static final SIMPLEST_BOARD_STARTING_COLOR = Color.RED;
 
     public static final MEDIUM_BOARD_COLUMNS = 10;
     public static final MEDIUM_BOARD_ROWS = 10;
+    public static final MEDIUM_BOARD_DIMENSIONS = Dimensions.dimensions(MEDIUM_BOARD_COLUMNS, MEDIUM_BOARD_ROWS)
     public static final MEDIUM_BOARD_CHIPS_TO_WIN = 3;
     public static final MEDIUM_BOARD_STARTING_COLOR = Color.RED;
 
     static Board simplestBoard() {
-        return new Board(SIMPLEST_BOARD_COLUMNS, SIMPLEST_BOARD_ROWS, SIMPLEST_BOARD_CHIPS_TO_WIN, SIMPLEST_BOARD_STARTING_COLOR)
+        return new Board(SIMPLEST_BOARD_DIMENSIONS, SIMPLEST_BOARD_CHIPS_TO_WIN, SIMPLEST_BOARD_STARTING_COLOR)
     }
 
     static Board simplestBoard(List<Integer> redPlays, List<Integer> yellowPlays) {
@@ -28,7 +30,7 @@ final class BoardMother {
     }
 
     static Board mediumSizedBoard() {
-        return new Board(MEDIUM_BOARD_CHIPS_TO_WIN, MEDIUM_BOARD_COLUMNS, MEDIUM_BOARD_ROWS, MEDIUM_BOARD_STARTING_COLOR);
+        return new Board(MEDIUM_BOARD_DIMENSIONS, MEDIUM_BOARD_CHIPS_TO_WIN, MEDIUM_BOARD_STARTING_COLOR);
     }
 
     static Board mediumSizedBoard(List<Integer> redPlays, List<Integer> yellowPlays) {
