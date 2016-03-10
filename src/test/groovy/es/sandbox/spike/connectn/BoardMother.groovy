@@ -17,6 +17,11 @@ final class BoardMother {
     public static final MEDIUM_BOARD_CHIPS_TO_WIN = 3;
     public static final MEDIUM_BOARD_STARTING_COLOR = Color.RED;
 
+    public static final CONNECT4_BOARD_COLUMNS = 7
+    public static final CONNECT4_BOARD_ROWS = 6
+    public static final CONNECT4_BOARD_DIMENSIONS = Dimensions.dimensions(CONNECT4_BOARD_COLUMNS, CONNECT4_BOARD_ROWS)
+    public static final CONNECT4_BOARD_CHIPS_TO_WIN = 4
+
     static Board simplestBoard() {
         return new Board(SIMPLEST_BOARD_DIMENSIONS, SIMPLEST_BOARD_CHIPS_TO_WIN, SIMPLEST_BOARD_STARTING_COLOR)
     }
@@ -41,21 +46,28 @@ final class BoardMother {
         return board;
     }
 
+
+    static Board connect4Board(Color color) {
+        return new Board(CONNECT4_BOARD_DIMENSIONS, CONNECT4_BOARD_CHIPS_TO_WIN, color);
+    }
+
     public
-    static void playTheGame(Board board, Color firstPlayerColor, List<Integer> firstPlayerMoves, List<Integer> secondPlayerMoves) {
+    static Result playTheGame(Board board, Color firstPlayerColor, List<Integer> firstPlayerMoves, List<Integer> secondPlayerMoves) {
         final Queue<Integer> p1Moves = new LinkedList<>(firstPlayerMoves);
         final Queue<Integer> p2Moves = new LinkedList<>(secondPlayerMoves);
 
+        def Result result = Result.draw()
         for (int plays = 0; plays < Math.max(firstPlayerMoves.size(), secondPlayerMoves.size()); plays++) {
 
             if (p1Moves.peek() != null) {
-                board.put(firstPlayerColor, p1Moves.poll());
+                result = board.put(firstPlayerColor, p1Moves.poll());
             }
 
             if (p2Moves.peek() != null) {
-                board.put(firstPlayerColor.rotate(), p2Moves.poll());
+                result = board.put(firstPlayerColor.rotate(), p2Moves.poll());
             }
         }
+        return result;
     }
 
     private BoardMother() {
