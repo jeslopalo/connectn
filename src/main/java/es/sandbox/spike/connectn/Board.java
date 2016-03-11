@@ -28,6 +28,10 @@ public class Board {
         this.nextTurn = startingColor;
     }
 
+    Dimensions dimensions() {
+        return this.dimensions;
+    }
+
     /**
      * @param color
      * @param column
@@ -58,7 +62,7 @@ public class Board {
 
     private Position findFirstEmptyPositionInColumn(int column) throws ColumnOutOfRangeException, ColumnIsFullException {
 
-        return this.dimensions.positionsAtColumn(column).stream()
+        return dimensions().positionsAtColumn(column).stream()
                 .filter(position -> !chipAt(position).isPresent())
                 .findFirst()
                 .orElseThrow(() -> new ColumnIsFullException(column));
@@ -86,7 +90,7 @@ public class Board {
     public Optional<Chip> chipAt(Position position) {
         Objects.requireNonNull(position, "Position must be non null");
 
-        if (this.dimensions.contains(position)) {
+        if (dimensions().contains(position)) {
             return Optional.ofNullable(this.chips[position.column()][position.row()]);
         }
         return Optional.empty();
