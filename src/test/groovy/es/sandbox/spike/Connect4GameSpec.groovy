@@ -26,5 +26,6 @@ class Connect4GameTest extends Specification {
         redPlays        | yellowPlays     || winner
         [0, 1, 2, 3]    | [0, 1, 2]       || Color.RED
         [0, 1, 2, 0, 1] | [0, 1, 2, 3, 3] || Color.YELLOW
+        [0, 0, 0, 0]    | [1, 2, 3]       || Color.RED
     }
 }
