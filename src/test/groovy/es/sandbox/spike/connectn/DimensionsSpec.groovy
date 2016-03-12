@@ -195,12 +195,12 @@ class DimensionsSpec extends Specification {
         columns | rows | magnitude || fits
         2       | 3    | 1         || true
         2       | 3    | 2         || true
-        2       | 3    | 3         || true
+        2       | 3    | 3         || false
         2       | 3    | 4         || false
 
         3       | 2    | 1         || true
         3       | 2    | 2         || true
-        3       | 2    | 3         || true
+        3       | 2    | 3         || false
         3       | 2    | 4         || false
     }
 

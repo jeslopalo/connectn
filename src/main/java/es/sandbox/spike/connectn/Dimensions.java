@@ -54,12 +54,12 @@ final class Dimensions {
     }
 
     boolean fitsOn(int magnitude) {
-        
+
         if (magnitude < 1) {
             throw new IllegalArgumentException("Magnitude must be greater than zero");
         }
 
-        return (Math.max(this.columns, magnitude) == this.columns) ||
+        return (Math.max(this.columns, magnitude) == this.columns) &&
                 (Math.max(this.rows, magnitude) == this.rows);
     }
 

@@ -29,7 +29,7 @@ class BoardSpec extends Specification {
 
         then:
         IllegalArgumentException exception = thrown()
-        exception.message == "Chips to win must be lower or equal than the number of columns"
+        exception.message == "Chips to win '6' must fit the board dimensions '" + numberOfColumns + "x10'"
 
         where:
         numberOfColumns << [3, 4, 5]
@@ -42,7 +42,7 @@ class BoardSpec extends Specification {
 
         then:
         IllegalArgumentException exception = thrown()
-        exception.message == "Chips to win must be lower or equal than the number of rows"
+        exception.message == "Chips to win '6' must fit the board dimensions '10x" + numberOfRows + "'"
 
         where:
         numberOfRows << [3, 4, 5]
