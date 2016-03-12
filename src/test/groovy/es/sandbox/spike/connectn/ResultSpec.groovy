@@ -10,7 +10,12 @@ import static es.sandbox.spike.connectn.Position.position
  */
 class ResultSpec extends Specification {
 
-    def "should return empty optional when draw"() {
+    def "should return the same instance for draws"() {
+        expect:
+        Result.draw().is(Result.draw())
+    }
+
+    def "should return empty optional winner when draw"() {
         when:
         def result = Result.draw()
 
@@ -35,7 +40,7 @@ class ResultSpec extends Specification {
     }
 
     private static Set<Chip> chips(Color color, Position... positions) {
-
+        //TODO Transform into streams
         final Set<Chip> chips = new HashSet<>()
         for (Position position : positions) {
             chips.add(new Chip(color, position));

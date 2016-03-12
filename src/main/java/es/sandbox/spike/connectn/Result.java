@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
  */
 final class Result {
 
+    private static final Result DRAW_INSTANCE = new Result();
+
     private final Color color;
     private final Set<Chip> chips;
 
@@ -24,7 +26,7 @@ final class Result {
     }
 
     public static Result draw() {
-        return new Result();
+        return DRAW_INSTANCE;
     }
 
     public static Result winner(Color color, Set<Chip> chips) {
