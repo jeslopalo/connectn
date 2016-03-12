@@ -2,9 +2,6 @@ package es.sandbox.spike.connectn;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.IntStream;
-
-import static es.sandbox.spike.connectn.Position.position;
 
 /**
  * Created by jeslopalo on 24/2/16.
@@ -25,8 +22,8 @@ public class Board {
         GameRules.validateChipsToWin(chipsToWin, dimensions);
         Objects.requireNonNull(startingColor, "Starting color may not be null");
 
+        this.chips = dimensions.createBoard();
         this.dimensions = dimensions;
-        this.chips = new Chip[dimensions.getColumns()][dimensions.getRows()];
         this.gameResultCalculator = new GameResultCalculator(this, chipsToWin);
         this.nextTurn = startingColor;
     }
@@ -60,11 +57,9 @@ public class Board {
     }
 
     private Position findFirstEmptyPositionInColumn(int column) throws ColumnOutOfRangeException, ColumnIsFullException {
-        this.dimensions.validateColumn(column);
 
-        return IntStream.range(0, this.chips[column].length)
-                .filter(row -> this.chips[column][row] == null)
-                .mapToObj(row -> position(column, row))
+        return this.dimensions.positionsAtColumn(column).stream()
+                .filter(position -> !chipAt(position).isPresent())
                 .findFirst()
                 .orElseThrow(() -> new ColumnIsFullException(column));
     }

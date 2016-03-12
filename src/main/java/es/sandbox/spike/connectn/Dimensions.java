@@ -1,6 +1,6 @@
 package es.sandbox.spike.connectn;
 
-import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -25,28 +25,24 @@ final class Dimensions {
         return new Dimensions(columns, rows);
     }
 
-    public Set<Position> positionsAtColumn(int column) {
+    Chip[][] createBoard() {
+        return new Chip[this.columns][this.rows];
+    }
+
+    public List<Position> positionsAtColumn(int column) {
         validateColumn(column);
 
         return IntStream.range(0, this.rows)
                 .mapToObj(row -> position(column, row))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
-    public Set<Position> positionsAtRow(int row) {
+    public List<Position> positionsAtRow(int row) {
         validateRow(row);
 
         return IntStream.range(0, this.columns)
                 .mapToObj(column -> position(column, row))
-                .collect(Collectors.toSet());
-    }
-
-    int getColumns() {
-        return this.columns;
-    }
-
-    int getRows() {
-        return this.rows;
+                .collect(Collectors.toList());
     }
 
     boolean contains(Position position) {

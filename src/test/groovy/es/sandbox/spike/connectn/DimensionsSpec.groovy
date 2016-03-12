@@ -217,26 +217,4 @@ class DimensionsSpec extends Specification {
         where:
         row << [0, 1]
     }
-
-    def "should get columns"() {
-        given:
-        def dimensions = Dimensions.dimensions(columns, 3);
-
-        expect:
-        dimensions.getColumns() == columns
-
-        where:
-        columns << [2, 3, 4, 5, 10, 100]
-    }
-
-    def "should get rows"() {
-        given:
-        def dimensions = Dimensions.dimensions(3, rows);
-
-        expect:
-        dimensions.getRows() == rows
-
-        where:
-        rows << [2, 3, 4, 5, 10, 100]
-    }
 }
