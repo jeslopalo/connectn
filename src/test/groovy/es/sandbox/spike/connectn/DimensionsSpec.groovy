@@ -148,6 +148,61 @@ class DimensionsSpec extends Specification {
         row << [-2, -1, 2, 3]
     }
 
+    def "should fail with negative magnitude when validate if it fits on"() {
+        given:
+        def dimensions = Dimensions.dimensions(2, 2)
+
+        when:
+        dimensions.fitsOn(magnitude)
+
+        then:
+        IllegalArgumentException exception = thrown()
+        exception.message == "Magnitude must be greater than zero"
+
+        where:
+        magnitude << [-2, -1, 0]
+    }
+
+    def "should validate if a magnitude fits on square dimensions"() {
+
+        given:
+        def dimensions = Dimensions.dimensions(columns, rows)
+
+        expect:
+        dimensions.fitsOn(magnitude) == fits
+
+        where:
+        columns | rows | magnitude || fits
+        2       | 2    | 1         || true
+        2       | 2    | 2         || true
+        2       | 2    | 3         || false
+
+        3       | 3    | 1         || true
+        3       | 3    | 2         || true
+        3       | 3    | 3         || true
+        3       | 3    | 4         || false
+    }
+
+    def "should validate if a magnitude fits on a rectangular dimensions"() {
+
+        given:
+        def dimensions = Dimensions.dimensions(columns, rows)
+
+        expect:
+        dimensions.fitsOn(magnitude) == fits
+
+        where:
+        columns | rows | magnitude || fits
+        2       | 3    | 1         || true
+        2       | 3    | 2         || true
+        2       | 3    | 3         || true
+        2       | 3    | 4         || false
+
+        3       | 2    | 1         || true
+        3       | 2    | 2         || true
+        3       | 2    | 3         || true
+        3       | 2    | 4         || false
+    }
 
     def "should get rows positions"() {
         given:

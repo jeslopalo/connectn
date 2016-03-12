@@ -53,6 +53,15 @@ final class Dimensions {
         return columnIsInRange(position.column()) && rowIsInRange(position.row());
     }
 
+    boolean fitsOn(int magnitude) {
+        if (magnitude < 1) {
+            throw new IllegalArgumentException("Magnitude must be greater than zero");
+        }
+
+        return (Math.max(this.columns, magnitude) == this.columns) ||
+                (Math.max(this.rows, magnitude) == this.rows);
+    }
+
     void validateColumn(int column) {
         if (!columnIsInRange(column)) {
             throw new ColumnOutOfRangeException(column, this);
