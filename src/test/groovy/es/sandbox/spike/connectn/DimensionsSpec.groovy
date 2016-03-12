@@ -104,6 +104,65 @@ class DimensionsSpec extends Specification {
         position(4, 4)   || false
     }
 
+    def "should fail getting column positions when column is out of range"() {
+        given:
+        def dimensions = Dimensions.dimensions(2, 2)
+
+        when:
+        dimensions.positionsAtColumn(column)
+
+        then:
+        ColumnOutOfRangeException exception = thrown()
+        exception.message == "The column '" + column + "' is out of range [2x2]"
+
+        where:
+        column << [-2, -1, 2, 3]
+    }
+
+    def "should get column positions"() {
+        given:
+        def dimensions = Dimensions.dimensions(2, 2)
+
+        when:
+        def positions = dimensions.positionsAtColumn(column)
+
+        then:
+        positions.containsAll([position(column, 0), position(column, 1)])
+
+        where:
+        column << [0, 1]
+    }
+
+    def "should fail getting row positions when row is out of range"() {
+        given:
+        def dimensions = Dimensions.dimensions(2, 2)
+
+        when:
+        dimensions.positionsAtRow(row)
+
+        then:
+        RowOutOfRangeException exception = thrown()
+        exception.message == "The row '" + row + "' is out of range [2x2]"
+
+        where:
+        row << [-2, -1, 2, 3]
+    }
+
+
+    def "should get rows positions"() {
+        given:
+        def dimensions = Dimensions.dimensions(2, 2)
+
+        when:
+        def positions = dimensions.positionsAtRow(row)
+
+        then:
+        positions.containsAll([position(0, row), position(1, row)])
+
+        where:
+        row << [0, 1]
+    }
+
     def "should get columns"() {
         given:
         def dimensions = Dimensions.dimensions(columns, 3);

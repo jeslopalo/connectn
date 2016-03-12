@@ -1,5 +1,11 @@
 package es.sandbox.spike.connectn;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static es.sandbox.spike.connectn.Position.position;
+
 /**
  * Created by jeslopalo on 27/2/16.
  */
@@ -19,6 +25,22 @@ final class Dimensions {
         return new Dimensions(columns, rows);
     }
 
+    public Set<Position> positionsAtColumn(int column) {
+        validateColumn(column);
+
+        return IntStream.range(0, this.rows)
+                .mapToObj(row -> position(column, row))
+                .collect(Collectors.toSet());
+    }
+
+    public Set<Position> positionsAtRow(int row) {
+        validateRow(row);
+
+        return IntStream.range(0, this.columns)
+                .mapToObj(column -> position(column, row))
+                .collect(Collectors.toSet());
+    }
+
     int getColumns() {
         return this.columns;
     }
@@ -34,6 +56,12 @@ final class Dimensions {
     void validateColumn(int column) {
         if (!columnIsInRange(column)) {
             throw new ColumnOutOfRangeException(column, this);
+        }
+    }
+
+    void validateRow(int row) {
+        if (!rowIsInRange(row)) {
+            throw new RowOutOfRangeException(row, this);
         }
     }
 
