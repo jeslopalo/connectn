@@ -54,6 +54,7 @@ final class Dimensions {
     }
 
     boolean fitsOn(int magnitude) {
+        
         if (magnitude < 1) {
             throw new IllegalArgumentException("Magnitude must be greater than zero");
         }
