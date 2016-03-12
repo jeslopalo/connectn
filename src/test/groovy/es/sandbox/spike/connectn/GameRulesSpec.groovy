@@ -38,7 +38,7 @@ class GameRulesSpec extends Specification {
 
         then:
         IllegalArgumentException exception = thrown()
-        exception.message == "Chips to win must be lower or equal than the number of columns"
+        exception.message == "Chips to win '" + chipsToWin + "' must fit the board dimensions '5x15'"
 
         where:
         chipsToWin << [6, 7, 8]
@@ -51,7 +51,7 @@ class GameRulesSpec extends Specification {
 
         then:
         IllegalArgumentException exception = thrown()
-        exception.message == "Chips to win must be lower or equal than the number of rows"
+        exception.message == "Chips to win '" + chipsToWin + "' must fit the board dimensions '15x5'"
 
         where:
         chipsToWin << [6, 7, 8]

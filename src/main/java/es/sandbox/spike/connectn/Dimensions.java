@@ -1,5 +1,11 @@
 package es.sandbox.spike.connectn;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static es.sandbox.spike.connectn.Position.position;
+
 /**
  * Created by jeslopalo on 27/2/16.
  */
@@ -19,21 +25,49 @@ final class Dimensions {
         return new Dimensions(columns, rows);
     }
 
-    int getColumns() {
-        return this.columns;
+    Chip[][] createBoard() {
+        return new Chip[this.columns][this.rows];
     }
 
-    int getRows() {
-        return this.rows;
+    public List<Position> positionsAtColumn(int column) {
+        validateColumn(column);
+
+        return IntStream.range(0, this.rows)
+                .mapToObj(row -> position(column, row))
+                .collect(Collectors.toList());
+    }
+
+    public List<Position> positionsAtRow(int row) {
+        validateRow(row);
+
+        return IntStream.range(0, this.columns)
+                .mapToObj(column -> position(column, row))
+                .collect(Collectors.toList());
     }
 
     boolean contains(Position position) {
         return columnIsInRange(position.column()) && rowIsInRange(position.row());
     }
 
+    boolean fitsOn(int magnitude) {
+
+        if (magnitude < 1) {
+            throw new IllegalArgumentException("Magnitude must be greater than zero");
+        }
+
+        return (Math.max(this.columns, magnitude) == this.columns) &&
+                (Math.max(this.rows, magnitude) == this.rows);
+    }
+
     void validateColumn(int column) {
         if (!columnIsInRange(column)) {
             throw new ColumnOutOfRangeException(column, this);
+        }
+    }
+
+    void validateRow(int row) {
+        if (!rowIsInRange(row)) {
+            throw new RowOutOfRangeException(row, this);
         }
     }
 

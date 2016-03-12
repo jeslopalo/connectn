@@ -104,25 +104,117 @@ class DimensionsSpec extends Specification {
         position(4, 4)   || false
     }
 
-    def "should get columns"() {
+    def "should fail getting column positions when column is out of range"() {
         given:
-        def dimensions = Dimensions.dimensions(columns, 3);
+        def dimensions = Dimensions.dimensions(2, 2)
 
-        expect:
-        dimensions.getColumns() == columns
+        when:
+        dimensions.positionsAtColumn(column)
+
+        then:
+        ColumnOutOfRangeException exception = thrown()
+        exception.message == "The column '" + column + "' is out of range [2x2]"
 
         where:
-        columns << [2, 3, 4, 5, 10, 100]
+        column << [-2, -1, 2, 3]
     }
 
-    def "should get rows"() {
+    def "should get column positions"() {
         given:
-        def dimensions = Dimensions.dimensions(3, rows);
+        def dimensions = Dimensions.dimensions(2, 2)
 
-        expect:
-        dimensions.getRows() == rows
+        when:
+        def positions = dimensions.positionsAtColumn(column)
+
+        then:
+        positions.containsAll([position(column, 0), position(column, 1)])
 
         where:
-        rows << [2, 3, 4, 5, 10, 100]
+        column << [0, 1]
+    }
+
+    def "should fail getting row positions when row is out of range"() {
+        given:
+        def dimensions = Dimensions.dimensions(2, 2)
+
+        when:
+        dimensions.positionsAtRow(row)
+
+        then:
+        RowOutOfRangeException exception = thrown()
+        exception.message == "The row '" + row + "' is out of range [2x2]"
+
+        where:
+        row << [-2, -1, 2, 3]
+    }
+
+    def "should fail with negative magnitude when validate if it fits on"() {
+        given:
+        def dimensions = Dimensions.dimensions(2, 2)
+
+        when:
+        dimensions.fitsOn(magnitude)
+
+        then:
+        IllegalArgumentException exception = thrown()
+        exception.message == "Magnitude must be greater than zero"
+
+        where:
+        magnitude << [-2, -1, 0]
+    }
+
+    def "should validate if a magnitude fits on square dimensions"() {
+
+        given:
+        def dimensions = Dimensions.dimensions(columns, rows)
+
+        expect:
+        dimensions.fitsOn(magnitude) == fits
+
+        where:
+        columns | rows | magnitude || fits
+        2       | 2    | 1         || true
+        2       | 2    | 2         || true
+        2       | 2    | 3         || false
+
+        3       | 3    | 1         || true
+        3       | 3    | 2         || true
+        3       | 3    | 3         || true
+        3       | 3    | 4         || false
+    }
+
+    def "should validate if a magnitude fits on a rectangular dimensions"() {
+
+        given:
+        def dimensions = Dimensions.dimensions(columns, rows)
+
+        expect:
+        dimensions.fitsOn(magnitude) == fits
+
+        where:
+        columns | rows | magnitude || fits
+        2       | 3    | 1         || true
+        2       | 3    | 2         || true
+        2       | 3    | 3         || false
+        2       | 3    | 4         || false
+
+        3       | 2    | 1         || true
+        3       | 2    | 2         || true
+        3       | 2    | 3         || false
+        3       | 2    | 4         || false
+    }
+
+    def "should get rows positions"() {
+        given:
+        def dimensions = Dimensions.dimensions(2, 2)
+
+        when:
+        def positions = dimensions.positionsAtRow(row)
+
+        then:
+        positions.containsAll([position(0, row), position(1, row)])
+
+        where:
+        row << [0, 1]
     }
 }

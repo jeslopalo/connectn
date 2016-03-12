@@ -10,19 +10,12 @@ final class GameRules {
     static void validateChipsToWin(int chipsToWin, Dimensions dimensions) {
         Objects.requireNonNull(dimensions, "Dimensions must not be null");
         assertThatChipsToWinIsGreaterThanOne(chipsToWin);
-        assertThatChipsToWinIsLowerOrEqualThanNumberOfColumns(chipsToWin, dimensions.getColumns());
-        assertThatChipsToWinIsLowerOrEqualThanNumberOfRows(chipsToWin, dimensions.getRows());
+        assertThatChipsToWinFitsOnDimensions(chipsToWin, dimensions);
     }
 
-    private static void assertThatChipsToWinIsLowerOrEqualThanNumberOfColumns(int chipsToWin, int columns) {
-        if (chipsToWin > columns) {
-            throw new IllegalArgumentException("Chips to win must be lower or equal than the number of columns");
-        }
-    }
-
-    private static void assertThatChipsToWinIsLowerOrEqualThanNumberOfRows(int chipsToWin, int rows) {
-        if (chipsToWin > rows) {
-            throw new IllegalArgumentException("Chips to win must be lower or equal than the number of rows");
+    private static void assertThatChipsToWinFitsOnDimensions(int chipsToWin, Dimensions dimensions) {
+        if (!dimensions.fitsOn(chipsToWin)) {
+            throw new IllegalArgumentException(String.format("Chips to win '%d' must fit the board dimensions '%s'", chipsToWin, dimensions));
         }
     }
 
