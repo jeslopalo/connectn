@@ -24,6 +24,10 @@ final class GameResultCalculator {
         this.result = Result.draw();
     }
 
+    public Result getResult() {
+        return this.result;
+    }
+
     public Result calculateFor(Position position) {
         Objects.requireNonNull(position, "Position must be not null");
 

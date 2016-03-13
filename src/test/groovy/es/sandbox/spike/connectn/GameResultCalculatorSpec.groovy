@@ -4,6 +4,7 @@ import spock.lang.Specification
 
 import static es.sandbox.spike.connectn.BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN
 import static es.sandbox.spike.connectn.BoardMother.simplestBoard
+import static es.sandbox.spike.connectn.GamePlayer.play
 import static es.sandbox.spike.connectn.Position.position
 
 /**
@@ -170,5 +171,48 @@ class GameResultCalculatorSpec extends Specification {
 
         then:
         noExceptionThrown()
+    }
+
+    def "should calculate board result for simplest board"() {
+
+        given:
+        def board = BoardMother.simplestBoard(redPlays, yellowPlays)
+        def resultCalculator = play(board, BoardMother.SIMPLEST_BOARD_DIMENSIONS, BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN);
+
+        when:
+        def expectedResult = resultCalculator.getResult()
+
+        then:
+        expectedResult.isGameOver() == finished
+        expectedResult.toString() == resultMessage
+
+        where:
+        redPlays | yellowPlays || finished | resultMessage
+        []       | []          || false | "draw! The game is on going"
+        [1]      | [0]         || false | "draw! The game is on going"
+        [1, 0]   | [0]         || true | "RED win! positions: {[0, 1], [1, 0]}"
+    }
+
+    def "should calculate board result for medium baord"() {
+
+        given:
+        def board = BoardMother.mediumSizedBoard(redPlays, yellowPlays)
+        def resultCalculator = play(board, BoardMother.MEDIUM_BOARD_DIMENSIONS, BoardMother.MEDIUM_BOARD_CHIPS_TO_WIN);
+
+        when:
+        def expectedResult = resultCalculator.getResult()
+
+        then:
+        expectedResult.isGameOver() == finished
+        expectedResult.toString() == resultMessage
+
+        where:
+        redPlays        | yellowPlays  || finished | resultMessage
+        []              | []           || false | "draw! The game is on going"
+        [1]             | [0]          || false | "draw! The game is on going"
+        [1, 0]          | [0]          || false | "draw! The game is on going"
+        [1, 2, 3]       | [0, 1]       || true | "RED win! positions: {[3, 0], [2, 0], [1, 0]}"
+        [0, 5, 3]       | [0, 0, 0]    || true | "YELLOW win! positions: {[0, 1], [0, 2], [0, 3]}"
+        [0, 1, 0, 2, 2] | [1, 0, 2, 1] || true | "RED win! positions: {[0, 0], [1, 1], [2, 2]}"
     }
 }

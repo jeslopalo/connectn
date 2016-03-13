@@ -1,5 +1,6 @@
 package es.sandbox.spike.connectn;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -29,7 +30,17 @@ final class Dimensions {
         return new Chip[this.columns][this.rows];
     }
 
-    public List<Position> positionsAtColumn(int column) {
+    List<Position> positions() {
+        final List<Position> positions = new ArrayList<>();
+
+        IntStream.range(0, this.columns)
+                .mapToObj(column -> positionsAtColumn(column))
+                .forEach(columnPositions -> positions.addAll(columnPositions));
+
+        return positions;
+    }
+
+    List<Position> positionsAtColumn(int column) {
         validateColumn(column);
 
         return IntStream.range(0, this.rows)
@@ -37,7 +48,7 @@ final class Dimensions {
                 .collect(Collectors.toList());
     }
 
-    public List<Position> positionsAtRow(int row) {
+    List<Position> positionsAtRow(int row) {
         validateRow(row);
 
         return IntStream.range(0, this.columns)

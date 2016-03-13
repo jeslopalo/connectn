@@ -95,4 +95,8 @@ public class Board {
         }
         return Optional.empty();
     }
+
+    public Result getResult() {
+        return this.gameResultCalculator.getResult();
+    }
 }
