@@ -9,11 +9,7 @@ class GamePlayer {
 
         def gameResultCalculator = new GameResultCalculator(board, chipsToWin);
 
-        dimensions.positions()
-                .stream()
-                .forEach {
-            position -> gameResultCalculator.calculateFor(position)
-        }
+        dimensions.forEachPosition({ position -> gameResultCalculator.calculateFor(position) })
 
         return gameResultCalculator;
     }
