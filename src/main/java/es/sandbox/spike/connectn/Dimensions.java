@@ -30,14 +30,22 @@ final class Dimensions {
         return new Chip[this.columns][this.rows];
     }
 
-    List<Position> positions() {
+    private List<Position> positions() {
         final List<Position> positions = new ArrayList<>();
-
         IntStream.range(0, this.columns)
                 .mapToObj(column -> positionsAtColumn(column))
                 .forEach(columnPositions -> positions.addAll(columnPositions));
-
         return positions;
+    }
+
+    void forEachPosition(PositionClosure positionClosure) {
+        positions().forEach(position -> positionClosure.execute(position));
+    }
+
+    void forEachPositionInRows(PositionsClosure positionsClosure) {
+        IntStream.range(0, this.rows)
+                .mapToObj(row -> positionsAtRow(row))
+                .forEach(positions -> positionsClosure.execute(positions));
     }
 
     List<Position> positionsAtColumn(int column) {
