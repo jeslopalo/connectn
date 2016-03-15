@@ -2,8 +2,7 @@ package es.sandbox.spike.connectn
 
 import spock.lang.Specification
 
-import static es.sandbox.spike.connectn.BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN
-import static es.sandbox.spike.connectn.BoardMother.simplestBoard
+import static es.sandbox.spike.connectn.BoardMother.*
 import static es.sandbox.spike.connectn.GamePlayer.play
 import static es.sandbox.spike.connectn.Position.position
 
@@ -148,8 +147,8 @@ class GameResultCalculatorSpec extends Specification {
     def "should fail when the game is over"() {
 
         given:
-        def board = BoardMother.simplestBoard([0, 0], [1])
-        def sut = new GameResultCalculator(board, BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN)
+        def board = simplestBoard([0, 0], [1])
+        def sut = new GameResultCalculator(board, SIMPLEST_BOARD_CHIPS_TO_WIN)
         sut.calculateFor(position(0, 1))
 
         when:
@@ -163,8 +162,8 @@ class GameResultCalculatorSpec extends Specification {
     def "should assert that game is on going"() {
 
         given:
-        def board = BoardMother.simplestBoard();
-        def sut = new GameResultCalculator(board, BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN)
+        def board = simplestBoard();
+        def sut = new GameResultCalculator(board, SIMPLEST_BOARD_CHIPS_TO_WIN)
 
         when:
         sut.assertThatGameIsOnGoing()
@@ -176,8 +175,8 @@ class GameResultCalculatorSpec extends Specification {
     def "should calculate board result for simplest board"() {
 
         given:
-        def board = BoardMother.simplestBoard(redPlays, yellowPlays)
-        def resultCalculator = play(board, BoardMother.SIMPLEST_BOARD_DIMENSIONS, BoardMother.SIMPLEST_BOARD_CHIPS_TO_WIN);
+        def board = simplestBoard(redPlays, yellowPlays)
+        def resultCalculator = play(board, SIMPLEST_BOARD_DIMENSIONS, SIMPLEST_BOARD_CHIPS_TO_WIN);
 
         when:
         def expectedResult = resultCalculator.getResult()
@@ -196,8 +195,8 @@ class GameResultCalculatorSpec extends Specification {
     def "should calculate board result for medium baord"() {
 
         given:
-        def board = BoardMother.mediumSizedBoard(redPlays, yellowPlays)
-        def resultCalculator = play(board, BoardMother.MEDIUM_BOARD_DIMENSIONS, BoardMother.MEDIUM_BOARD_CHIPS_TO_WIN);
+        def board = mediumSizedBoard(redPlays, yellowPlays)
+        def resultCalculator = play(board, MEDIUM_BOARD_DIMENSIONS, MEDIUM_BOARD_CHIPS_TO_WIN);
 
         when:
         def expectedResult = resultCalculator.getResult()
