@@ -9,7 +9,7 @@ import static es.sandbox.spike.connectn.BoardMother.playTheGame
 /**
  * Created by jeslopalo on 10/3/16.
  */
-class Connect4GameTest extends Specification {
+class Connect4GameSpec extends Specification {
 
     def "should play connect4"() {
         given:
