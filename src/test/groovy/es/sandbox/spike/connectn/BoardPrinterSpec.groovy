@@ -24,7 +24,7 @@ class BoardPrinterSpec extends Specification {
 
         when:
         printer.printTo(outputStream)
-        printer.printTo(System.err)
+        printer.printTo(System.out)
 
         then:
         def borderLength = (3 * columns) + 4 + 1;

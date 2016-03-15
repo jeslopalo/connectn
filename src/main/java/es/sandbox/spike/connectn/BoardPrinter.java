@@ -12,6 +12,13 @@ import java.util.Objects;
  */
 public class BoardPrinter {
 
+    private static final char VERTICAL = '║';
+    private static final char HORIZONTAL = '═';
+    private static final char TOP_LEFT_CORNER = '╔';
+    private static final char TOP_RIGHT_CORNER = '╗';
+    private static final char BOTTOM_LEFT_CORNER = '╚';
+    private static final char BOTTOM_RIGHT_CORNER = '╝';
+
     private final Board board;
 
     BoardPrinter(Board board) {
@@ -24,12 +31,14 @@ public class BoardPrinter {
 
         final Deque<String> rows = calculateRows();
 
-        final String border = border(rows.peek().length());
+        final String topBorder = border(rows.peek().length(), TOP_LEFT_CORNER, TOP_RIGHT_CORNER);
+        final String bottomBorder = border(rows.peek().length(), BOTTOM_LEFT_CORNER, BOTTOM_RIGHT_CORNER);
         final PrintWriter writer = new PrintWriter(outputStream, true);
-        writer.format("%s\n", border);
-        rows.stream().forEach(row -> writer.format("|%s  |\n", row));
-        writer.format("%s\n", border);
-        writer.format("%s\n", this.board.getResult());
+        
+        writer.println(topBorder);
+        rows.stream().forEach(row -> writer.format("%1$c%2$s  %1$c\n", VERTICAL, row));
+        writer.println(bottomBorder);
+        writer.println(this.board.getResult());
         writer.flush();
     }
 
@@ -51,9 +60,9 @@ public class BoardPrinter {
         return rows;
     }
 
-    private String border(int length) {
-        final char[] border = new char[length];
-        Arrays.fill(border, '-');
-        return String.format(" %s-- ", new String(border));
+    private String border(int length, char left, char right) {
+        final char[] border = new char[length + 2];
+        Arrays.fill(border, HORIZONTAL);
+        return String.format("%c%s%c", left, new String(border), right);
     }
 }
