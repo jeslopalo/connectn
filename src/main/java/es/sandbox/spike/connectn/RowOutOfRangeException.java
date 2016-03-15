@@ -5,7 +5,7 @@ package es.sandbox.spike.connectn;
  */
 public class RowOutOfRangeException extends IllegalArgumentException {
 
-    public RowOutOfRangeException(int row, Dimensions dimensions) {
+    RowOutOfRangeException(int row, Dimensions dimensions) {
         super(message(row, dimensions));
     }
 

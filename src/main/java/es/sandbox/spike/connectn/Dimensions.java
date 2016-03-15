@@ -33,19 +33,19 @@ final class Dimensions {
     private List<Position> positions() {
         final List<Position> positions = new ArrayList<>();
         IntStream.range(0, this.columns)
-                .mapToObj(column -> positionsAtColumn(column))
-                .forEach(columnPositions -> positions.addAll(columnPositions));
+                .mapToObj(this::positionsAtColumn)
+                .forEach(positions::addAll);
         return positions;
     }
 
     void forEachPosition(PositionClosure positionClosure) {
-        positions().forEach(position -> positionClosure.execute(position));
+        positions().forEach(positionClosure::execute);
     }
 
     void forEachPositionInRows(PositionsClosure positionsClosure) {
         IntStream.range(0, this.rows)
-                .mapToObj(row -> positionsAtRow(row))
-                .forEach(positions -> positionsClosure.execute(positions));
+                .mapToObj(this::positionsAtRow)
+                .forEach(positionsClosure::execute);
     }
 
     List<Position> positionsAtColumn(int column) {
@@ -78,13 +78,13 @@ final class Dimensions {
                 (Math.max(this.rows, magnitude) == this.rows);
     }
 
-    void validateColumn(int column) {
+    private void validateColumn(int column) {
         if (!columnIsInRange(column)) {
             throw new ColumnOutOfRangeException(column, this);
         }
     }
 
-    void validateRow(int row) {
+    private void validateRow(int row) {
         if (!rowIsInRange(row)) {
             throw new RowOutOfRangeException(row, this);
         }
@@ -98,7 +98,7 @@ final class Dimensions {
         return 0 <= column && column < this.columns;
     }
 
-    static void validateDimensions(int columns, int rows) {
+    private static void validateDimensions(int columns, int rows) {
         assertThatNumberOfColumnsIsGreaterOrEqualThanTwo(columns);
         assertThatNumberOfRowsIsGreaterOrEqualThanTwo(rows);
     }
