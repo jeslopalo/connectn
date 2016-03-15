@@ -1,5 +1,12 @@
 package es.sandbox.spike.connectn;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static es.sandbox.spike.connectn.Position.position;
+
 /**
  * Created by jeslopalo on 27/2/16.
  */
@@ -19,21 +26,67 @@ final class Dimensions {
         return new Dimensions(columns, rows);
     }
 
-    int getColumns() {
-        return this.columns;
+    Chip[][] createBoard() {
+        return new Chip[this.columns][this.rows];
     }
 
-    int getRows() {
-        return this.rows;
+    private List<Position> positions() {
+        final List<Position> positions = new ArrayList<>();
+        IntStream.range(0, this.columns)
+                .mapToObj(this::positionsAtColumn)
+                .forEach(positions::addAll);
+        return positions;
+    }
+
+    void forEachPosition(PositionClosure positionClosure) {
+        positions().forEach(positionClosure::execute);
+    }
+
+    void forEachPositionInRows(PositionsClosure positionsClosure) {
+        IntStream.range(0, this.rows)
+                .mapToObj(this::positionsAtRow)
+                .forEach(positionsClosure::execute);
+    }
+
+    List<Position> positionsAtColumn(int column) {
+        validateColumn(column);
+
+        return IntStream.range(0, this.rows)
+                .mapToObj(row -> position(column, row))
+                .collect(Collectors.toList());
+    }
+
+    List<Position> positionsAtRow(int row) {
+        validateRow(row);
+
+        return IntStream.range(0, this.columns)
+                .mapToObj(column -> position(column, row))
+                .collect(Collectors.toList());
     }
 
     boolean contains(Position position) {
         return columnIsInRange(position.column()) && rowIsInRange(position.row());
     }
 
-    void validateColumn(int column) {
+    boolean fitsOn(int magnitude) {
+
+        if (magnitude < 1) {
+            throw new IllegalArgumentException("Magnitude must be greater than zero");
+        }
+
+        return (Math.max(this.columns, magnitude) == this.columns) &&
+                (Math.max(this.rows, magnitude) == this.rows);
+    }
+
+    private void validateColumn(int column) {
         if (!columnIsInRange(column)) {
             throw new ColumnOutOfRangeException(column, this);
+        }
+    }
+
+    private void validateRow(int row) {
+        if (!rowIsInRange(row)) {
+            throw new RowOutOfRangeException(row, this);
         }
     }
 
@@ -45,7 +98,7 @@ final class Dimensions {
         return 0 <= column && column < this.columns;
     }
 
-    static void validateDimensions(int columns, int rows) {
+    private static void validateDimensions(int columns, int rows) {
         assertThatNumberOfColumnsIsGreaterOrEqualThanTwo(columns);
         assertThatNumberOfRowsIsGreaterOrEqualThanTwo(rows);
     }

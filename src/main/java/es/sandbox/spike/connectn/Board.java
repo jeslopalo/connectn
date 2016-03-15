@@ -2,9 +2,6 @@ package es.sandbox.spike.connectn;
 
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.IntStream;
-
-import static es.sandbox.spike.connectn.Position.position;
 
 /**
  * Created by jeslopalo on 24/2/16.
@@ -25,10 +22,14 @@ public class Board {
         GameRules.validateChipsToWin(chipsToWin, dimensions);
         Objects.requireNonNull(startingColor, "Starting color may not be null");
 
+        this.chips = dimensions.createBoard();
         this.dimensions = dimensions;
-        this.chips = new Chip[dimensions.getColumns()][dimensions.getRows()];
         this.gameResultCalculator = new GameResultCalculator(this, chipsToWin);
         this.nextTurn = startingColor;
+    }
+
+    Dimensions dimensions() {
+        return this.dimensions;
     }
 
     /**
@@ -36,10 +37,12 @@ public class Board {
      * @param column
      * @return
      * @throws ColumnOutOfRangeException
+     * @throws ColumnIsFullException
      * @throws WrongTurnException
      * @throws GameOverException
      */
-    public Result put(Color color, int column) throws ColumnOutOfRangeException, WrongTurnException, GameOverException {
+    public Result put(Color color, int column)
+            throws ColumnOutOfRangeException, ColumnIsFullException, WrongTurnException, GameOverException {
 
         this.gameResultCalculator.assertThatGameIsOnGoing();
 
@@ -57,12 +60,10 @@ public class Board {
         this.nextTurn = color.rotate();
     }
 
-    private Position findFirstEmptyPositionInColumn(int column) throws ColumnOutOfRangeException {
-        this.dimensions.validateColumn(column);
+    private Position findFirstEmptyPositionInColumn(int column) throws ColumnOutOfRangeException, ColumnIsFullException {
 
-        return IntStream.range(0, this.chips[column].length)
-                .filter(row -> this.chips[column][row] == null)
-                .mapToObj(row -> position(column, row))
+        return dimensions().positionsAtColumn(column).stream()
+                .filter(position -> !chipAt(position).isPresent())
                 .findFirst()
                 .orElseThrow(() -> new ColumnIsFullException(column));
     }
@@ -89,9 +90,13 @@ public class Board {
     public Optional<Chip> chipAt(Position position) {
         Objects.requireNonNull(position, "Position must be non null");
 
-        if (this.dimensions.contains(position)) {
+        if (dimensions().contains(position)) {
             return Optional.ofNullable(this.chips[position.column()][position.row()]);
         }
         return Optional.empty();
+    }
+
+    public Result getResult() {
+        return this.gameResultCalculator.getResult();
     }
 }
