@@ -34,7 +34,7 @@ public class BoardPrinter {
         final String topBorder = border(rows.peek().length(), TOP_LEFT_CORNER, TOP_RIGHT_CORNER);
         final String bottomBorder = border(rows.peek().length(), BOTTOM_LEFT_CORNER, BOTTOM_RIGHT_CORNER);
         final PrintWriter writer = new PrintWriter(outputStream, true);
-        
+
         writer.println(topBorder);
         rows.stream().forEach(row -> writer.format("%1$c%2$s  %1$c\n", VERTICAL, row));
         writer.println(bottomBorder);
