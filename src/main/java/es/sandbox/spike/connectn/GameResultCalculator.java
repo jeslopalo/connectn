@@ -66,7 +66,6 @@ final class GameResultCalculator {
 
         origin.position().at(direction)
                 .ifPresent(position ->
-
                         chipAt(position)
                                 .filter(chip -> chip.color() == origin.color())
                                 .ifPresent(chip -> {
