@@ -79,8 +79,7 @@ public class Board {
     public Optional<Color> colorAt(Position position) {
         Objects.requireNonNull(position, "Position must be non null");
 
-        return chipAt(position)
-                .map(Chip::color);
+        return chipAt(position).map(Chip::color);
     }
 
     /**
