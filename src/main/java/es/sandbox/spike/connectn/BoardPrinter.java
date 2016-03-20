@@ -30,16 +30,17 @@ public class BoardPrinter {
     public void printTo(OutputStream outputStream) {
 
         final PrintWriter writer = new PrintWriter(outputStream, true);
-        final Deque<String> rows = calculateRows();
+        final Deque<String> rows = stringifyRows();
+        final int rowLength = rows.peek().length();
 
-        writer.println(border(rows.peek().length(), TOP_LEFT_CORNER, TOP_RIGHT_CORNER));
-        rows.stream().forEach(row -> writer.format("%1$c%2$s  %1$c\n", VERTICAL, row));
-        writer.println(border(rows.peek().length(), BOTTOM_LEFT_CORNER, BOTTOM_RIGHT_CORNER));
-        writer.println(this.board.getResult());
+        writeBorderTop(writer, rowLength);
+        writeRows(writer, rows);
+        writeBorderBottom(writer, rowLength);
+        writeResult(writer);
         writer.flush();
     }
 
-    private Deque<String> calculateRows() {
+    private Deque<String> stringifyRows() {
         final Deque<String> rows = new ArrayDeque<>();
 
         this.board.dimensions().forEachPositionInRows(positions -> {
@@ -49,12 +50,32 @@ public class BoardPrinter {
                 final String color = this.board.chipAt(position)
                         .map(chip -> chip.color().name())
                         .orElse("-");
-                row.append(String.format("%3s", color.substring(0, 1).toUpperCase()));
+                row.append(formatColor(color));
             });
 
             rows.push(row.toString());
         });
         return rows;
+    }
+
+    private String formatColor(String color) {
+        return String.format("%3s", color.substring(0, 1).toUpperCase());
+    }
+
+    private void writeBorderTop(PrintWriter writer, int rowLength) {
+        writer.println(border(rowLength, TOP_LEFT_CORNER, TOP_RIGHT_CORNER));
+    }
+
+    private void writeRows(PrintWriter writer, Deque<String> rows) {
+        rows.stream().forEach(row -> writer.format("%1$c%2$s  %1$c\n", VERTICAL, row));
+    }
+
+    private void writeBorderBottom(PrintWriter writer, int rowLength) {
+        writer.println(border(rowLength, BOTTOM_LEFT_CORNER, BOTTOM_RIGHT_CORNER));
+    }
+
+    private void writeResult(PrintWriter writer) {
+        writer.println(this.board.getResult());
     }
 
     private String border(int length, char left, char right) {
