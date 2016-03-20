@@ -99,17 +99,11 @@ final class Dimensions {
     }
 
     private static void validateDimensions(int columns, int rows) {
-        assertThatNumberOfColumnsIsGreaterOrEqualThanTwo(columns);
-        assertThatNumberOfRowsIsGreaterOrEqualThanTwo(rows);
-    }
 
-    private static void assertThatNumberOfColumnsIsGreaterOrEqualThanTwo(int columns) {
         if (columns < 2) {
             throw new IllegalArgumentException("The number of columns must be greater or equal than 2");
         }
-    }
 
-    private static void assertThatNumberOfRowsIsGreaterOrEqualThanTwo(int rows) {
         if (rows < 2) {
             throw new IllegalArgumentException("The number of rows must be greater or equal than 2");
         }
